@@ -1,26 +1,61 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-papel: #fafaf7;
+  --color-papel-2: #f2f2ec;
+  --color-tinta: #16211c;
+  --color-tinta-suave: #54635c;
+  --color-verde: #1c5d4e;
+  --color-verde-claro: #e7efec;
+  --color-ambar: #a65b12;
+  --color-regla: #e3e3dc;
+  --color-rojo: #a03123;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-papel);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Números tabulares en toda cifra monetaria o de cantidad */
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+::selection {
+  background: var(--color-verde-claro);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-verde);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Tablas con scroll horizontal en pantallas angostas (CSS puro, sin JS) */
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media print {
+  aside, header, .print\:hidden { display: none !important; }
+  main { padding: 0 !important; }
+  html, body { background: #fff; }
 }
