@@ -12,7 +12,7 @@ export function PageHeader({
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-regla pb-5">
       <div>
-        <h1 className="text-[26px] font-semibold leading-tight tracking-tight">
+        <h1 className="text-[28px] font-semibold leading-tight tracking-tight">
           {title}
         </h1>
         {subtitle && (
@@ -118,7 +118,7 @@ export function EmptyState({
   hint?: string;
 }) {
   return (
-    <div className="border border-dashed border-regla px-6 py-14 text-center">
+    <div className="card px-6 py-14 text-center">
       <p className="text-[15px] font-medium">{title}</p>
       {hint && <p className="mt-1 text-[13px] text-tinta-suave">{hint}</p>}
     </div>

@@ -67,7 +67,7 @@ export default async function Tasa({
         que se emiten; cambiarla no altera facturas pasadas.
       </p>
 
-      <form action={createRate} className="mb-12 border border-regla bg-white p-6">
+      <form action={createRate} className="mb-12 card p-6">
         <h2 className="mb-5 border-b border-regla pb-3 text-[15px] font-semibold tracking-tight">
           Registrar tasa
         </h2>

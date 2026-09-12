@@ -47,6 +47,33 @@ button:not(:disabled):active {
   transform: scale(0.98);
 }
 
+/* Tarjeta estándar del sistema: papel blanco con elevación silenciosa */
+.card {
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(22, 33, 28, 0.05),
+    0 1px 2px -1px rgba(22, 33, 28, 0.06),
+    0 2px 6px rgba(22, 33, 28, 0.03);
+}
+
+/* Filas vivas: la tabla responde al cursor sin reglas por página */
+@media (hover: hover) {
+  tbody tr:hover {
+    background: color-mix(in srgb, var(--color-papel-2) 55%, transparent);
+  }
+}
+
+/* Foco con halo verde en todos los controles de formulario */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-verde-claro);
+}
+
+h1 {
+  text-wrap: balance;
+}
+
 /* Elevación en capas para superficies destacadas (fintech, sin bordes duros) */
 .card-lift {
   transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -83,5 +110,6 @@ button:not(:disabled):active {
 @media print {
   aside, header, .print\:hidden { display: none !important; }
   main { padding: 0 !important; }
+  .card, .card-lift { box-shadow: none !important; }
   html, body { background: #fff; }
 }

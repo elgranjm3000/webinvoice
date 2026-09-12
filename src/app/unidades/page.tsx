@@ -61,7 +61,7 @@ export default async function Unidades({
 
       <form
         action={editing ? updateUnit : createUnit}
-        className="mb-12 border border-regla bg-white p-6"
+        className="mb-12 card p-6"
       >
         <h2 className="mb-5 border-b border-regla pb-3 text-[15px] font-semibold tracking-tight">
           {editing ? `Editar unidad — ${editing.name}` : "Registrar unidad"}

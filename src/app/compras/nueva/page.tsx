@@ -69,7 +69,7 @@ export default async function NuevaCompra({
               alm: String(fd.get("alm") ?? ""),
             });
             redirect(`/compras/nueva?${search}`);
-          }} className="max-w-xl border border-regla bg-white p-6">
+          }} className="max-w-xl card p-6">
             <div className="grid gap-4">
               <label className="block text-[13px] text-tinta-suave">
                 Proveedor
@@ -172,7 +172,7 @@ export default async function NuevaCompra({
         }}
         className="max-w-4xl"
       >
-        <div className="mb-8 grid gap-4 border border-regla bg-white p-6 sm:grid-cols-3">
+        <div className="mb-8 grid gap-4 card p-6 sm:grid-cols-3">
           <label className="block text-[13px] text-tinta-suave">
             N° de factura del proveedor
             <input name="invoice_number" required placeholder="F-00123" className={`num mt-1.5 ${inp}`} />

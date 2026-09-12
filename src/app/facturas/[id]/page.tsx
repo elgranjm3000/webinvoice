@@ -99,7 +99,7 @@ export default async function Factura({
       </div>
 
       {/* Encabezado fiscal */}
-      <section className="mb-10 grid gap-8 border border-regla bg-white p-6 sm:grid-cols-2 print:border-0">
+      <section className="mb-10 grid gap-8 card p-6 sm:grid-cols-2 print:border-0">
         <div className="text-[13px] leading-relaxed">
           <p className="text-[15px] font-semibold">{co?.legal_name}</p>
           {co?.trade_name && <p className="text-tinta-suave">{co.trade_name}</p>}

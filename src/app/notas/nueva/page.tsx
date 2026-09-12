@@ -76,7 +76,7 @@ export default async function NuevaNota({
             tipo,
           });
           redirect(`/notas/nueva?${search}`);
-        }} className="max-w-xl border border-regla bg-white p-6">
+        }} className="max-w-xl card p-6">
           <div className="grid gap-4">
             <label className="block text-[13px] text-tinta-suave">
               Tipo de nota

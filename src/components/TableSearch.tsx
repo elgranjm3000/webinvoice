@@ -67,11 +67,8 @@ export function CollapsibleForm({
   children: React.ReactNode;
 }) {
   return (
-    <details
-      open={editing}
-      className="mb-12 border border-regla bg-white open:border-tinta"
-    >
-      <summary className="list-none cursor-pointer select-none px-6 py-4 text-[15px] font-semibold tracking-tight hover:bg-papel-2 [&::-webkit-details-marker]:hidden">
+    <details open={editing} className="card mb-12">
+      <summary className="list-none cursor-pointer select-none px-6 py-4 text-[15px] font-semibold tracking-tight transition-colors hover:bg-papel-2/60 [&::-webkit-details-marker]:hidden">
         <span className="flex items-center justify-between">
           {title}
           <span

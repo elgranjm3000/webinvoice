@@ -85,7 +85,7 @@ export default async function DocumentoImprimible({
       </div>
 
       {/* El documento en sí: A4 aprox., solo el papel */}
-      <article className="mx-auto max-w-[820px] border border-regla bg-white p-8 text-tinta sm:p-12 print:border-0 print:p-0">
+      <article className="mx-auto max-w-[820px] card p-8 text-tinta sm:p-12 print:border-0 print:p-0">
         {inv.status === "voided" && (
           <p className="mb-6 border-2 border-rojo py-2 text-center text-[18px] font-bold tracking-widest text-rojo">
             DOCUMENTO ANULADO

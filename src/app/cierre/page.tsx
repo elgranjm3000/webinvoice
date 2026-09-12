@@ -138,7 +138,7 @@ export default async function Cierre({
           congelados en el historial de abajo.
         </p>
       ) : (
-        <div className="mb-12 grid gap-6 border border-regla bg-white p-6 sm:grid-cols-3">
+        <div className="mb-12 grid gap-6 card p-6 sm:grid-cols-3">
           <div>
             <p className="text-[12px] text-tinta-suave">Pagos del día</p>
             <p className="num mt-1 text-[26px] font-semibold tracking-tight">
