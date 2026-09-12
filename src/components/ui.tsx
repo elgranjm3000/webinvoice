@@ -45,7 +45,7 @@ export function Stat({
 }) {
   if (hero) {
     return (
-      <div className="card-lift col-span-2 border-t-2 border-verde bg-white px-5 py-4 lg:col-span-2">
+      <div className="card-lift col-span-2 border-t-2 border-verde bg-white px-5 py-4 lg:col-span-3">
         <p className="text-[12px] text-tinta-suave">{label}</p>
         <div className="mt-1 flex items-end justify-between gap-4">
           <p className="num text-[32px] font-semibold leading-none tracking-tight">

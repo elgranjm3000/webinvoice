@@ -71,7 +71,7 @@ export default async function Dashboard() {
           hint="Cuando emitas tu primera factura, sus totales aparecerán aquí."
         />
       ) : (
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-6">
           <Stat
             label="Facturación en dólares (mes)"
             value={fmtUsd(totalUsd)}
@@ -96,15 +96,14 @@ export default async function Dashboard() {
       )}
 
       {inv && inv.length > 0 && (
-        <>
-          <section className="card mt-14 max-w-3xl p-5 sm:p-6">
+        <div className="mt-6 grid gap-4 xl:grid-cols-5">
+          <section className="card min-w-0 p-5 sm:p-6 xl:col-span-3">
             <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-[13px] font-medium text-tinta-suave">
                 Facturación por día — mes en curso (USD)
               </h2>
               <p className="num text-[12px] text-tinta-suave">
-                Total {fmtUsd(totalUsd)} · pico{" "}
-                {fmtUsd(Math.max(...byDay.map((d) => d.value)))} el día{" "}
+                Total {fmtUsd(totalUsd)} · pico el día{" "}
                 {byDay.findIndex((d) => d.value === Math.max(...byDay.map((x) => x.value))) + 1}
               </p>
             </div>
@@ -120,7 +119,7 @@ export default async function Dashboard() {
             />
           </section>
 
-          <section className="card mt-6 max-w-3xl p-5 sm:p-6">
+          <section className="card min-w-0 p-5 sm:p-6 xl:col-span-2">
             <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="text-[13px] font-medium text-tinta-suave">
                 Últimos 6 meses (USD)
@@ -140,7 +139,7 @@ export default async function Dashboard() {
               }))}
             />
           </section>
-        </>
+        </div>
       )}
 
       {low && low.length > 0 && (
