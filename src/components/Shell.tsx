@@ -37,13 +37,33 @@ const NAV: { group: string; items: { href: string; label: string }[] }[] = [
   },
 ];
 
-function NavLinks({ pathname }: { pathname: string }) {
+function Brand({ compact = false }: { compact?: boolean }) {
   return (
-    <nav className="border-t border-regla pt-3">
-      {NAV.map((section) => (
-        <div key={section.group} className="mb-3">
-          <p className="px-5 pb-1 pt-2 text-[11px] text-tinta-suave">
+    <Link href="/" className="group block">
+      <p className="text-[17px] font-semibold leading-tight tracking-tight text-tinta transition-colors group-hover:text-verde">
+        Facturación
+        <span className="num ml-1.5 text-[14px] font-medium text-verde">26</span>
+      </p>
+      {/* Doble regla de la identidad: tinta fina + verde gruesa */}
+      <span aria-hidden className="mt-2 block h-px bg-tinta" />
+      <span aria-hidden className="mt-px block h-[3px] w-8 bg-verde" />
+      {!compact && (
+        <span className="mt-2.5 block text-[11.5px] leading-snug text-tinta-suave">
+          Libro fiscal y almacén
+        </span>
+      )}
+    </Link>
+  );
+}
+
+function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+  return (
+    <nav aria-label="Secciones del sistema" className="pt-1">
+      {NAV.map((section, gi) => (
+        <div key={section.group} className={gi > 0 ? "mt-5" : ""}>
+          <p className="flex items-center gap-2 px-5 pb-2 text-[11px] font-medium tracking-wide text-tinta-suave/80">
             {section.group}
+            <span aria-hidden className="h-px flex-1 bg-regla" />
           </p>
           <ul>
             {section.items.map((item) => {
@@ -53,16 +73,18 @@ function NavLinks({ pathname }: { pathname: string }) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
-                    className={`flex items-center gap-2.5 py-2.5 pl-5 pr-4 text-[14px] transition-colors hover:bg-papel-2 ${
+                    className={`relative flex min-h-[40px] items-center py-2 pl-5 pr-4 text-[13.5px] leading-none transition-colors ${
                       active
-                        ? "bg-papel-2 font-medium text-tinta"
-                        : "text-tinta-suave"
+                        ? "bg-papel-2 font-semibold text-tinta"
+                        : "text-tinta-suave hover:bg-papel-2/60 hover:text-tinta"
                     }`}
                   >
+                    {/* Marca de renglón activo, como folio marcado en el libro */}
                     <span
                       aria-hidden
-                      className={`h-3.5 w-px ${active ? "bg-verde" : "bg-transparent"}`}
+                      className={`absolute left-0 top-0 h-full w-[3px] ${active ? "bg-verde" : "bg-transparent"}`}
                     />
                     {item.label}
                   </Link>
@@ -76,20 +98,34 @@ function NavLinks({ pathname }: { pathname: string }) {
   );
 }
 
-function SignOutButton() {
+function Footer({ onNavigate }: { onNavigate?: () => void }) {
   const router = useRouter();
   return (
-    <button
-      type="button"
-      onClick={async () => {
-        await supabaseBrowser().auth.signOut();
-        router.push("/login");
-        router.refresh();
-      }}
-      className="text-[13px] text-tinta-suave underline underline-offset-2 hover:text-tinta"
-    >
-      Cerrar sesión
-    </button>
+    <div className="shrink-0 px-4 pb-5 pt-4">
+      <div className="border border-regla bg-white">
+        <span aria-hidden className="block h-[2px] w-full bg-verde" />
+        <div className="px-4 py-3.5">
+          <p className="text-[11.5px] leading-relaxed text-tinta-suave">
+            Documentos conforme a SENIAT
+          </p>
+          <p className="mt-0.5 text-[11px] text-tinta-suave/70">
+            Montos en USD y Bs. según tasa BCV
+          </p>
+          <button
+            type="button"
+            onClick={async () => {
+              onNavigate?.();
+              await supabaseBrowser().auth.signOut();
+              router.push("/login");
+              router.refresh();
+            }}
+            className="mt-3 min-h-[36px] border border-regla px-3 py-1.5 text-[12.5px] font-medium text-tinta transition-colors hover:border-tinta hover:bg-papel-2"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -104,60 +140,38 @@ export function Shell({ children }: { children: React.ReactNode }) {
       {/* Móvil: barra superior con menú desplegable <details> (sin JavaScript) */}
       <header className="sticky top-0 z-10 border-b border-regla bg-papel lg:hidden">
         <details className="group">
-          <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 [&::-webkit-details-marker]:hidden">
-            <span className="leading-tight">
-              <span className="block text-[15px] font-semibold tracking-tight">
-                Facturación
-              </span>
-              <span className="num block text-[12px] text-verde">2026</span>
-            </span>
+          <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between px-4 [&::-webkit-details-marker]:hidden">
+            <Brand compact />
             <span
               aria-hidden
-              className="text-[13px] text-tinta-suave group-open:hidden"
+              className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] border border-regla bg-white group-open:border-tinta"
             >
-              Menú ☰
-            </span>
-            <span aria-hidden className="hidden text-[13px] text-tinta-suave group-open:inline">
-              Cerrar ✕
+              <span className="h-px w-4 bg-tinta group-open:hidden" />
+              <span className="h-px w-4 bg-tinta group-open:hidden" />
+              <span className="hidden h-px w-4 bg-tinta group-open:block" />
+              <span className="hidden h-px w-4 bg-tinta group-open:block" />
             </span>
           </summary>
-          <div className="max-h-[70vh] overflow-y-auto pb-4">
+          <div className="max-h-[75vh] overflow-y-auto border-t border-regla pb-4 pt-3">
             <NavLinks pathname={pathname} />
-            <div className="border-t border-regla px-5 pt-4">
-              <p className="text-[12px] leading-relaxed text-tinta-suave">
-                Documentos conforme a SENIAT
-              </p>
-              <div className="mt-3">
-                <SignOutButton />
-              </div>
+            <div className="mt-4 border-t border-regla pt-1">
+              <Footer />
             </div>
           </div>
         </details>
       </header>
 
       {/* Escritorio: menú lateral fijo */}
-      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-regla bg-papel lg:flex">
-        <div className="px-5 pb-6 pt-7">
-          <Link href="/" className="block leading-tight">
-            <span className="block text-[15px] font-semibold tracking-tight">
-              Facturación
-            </span>
-            <span className="num block text-[13px] text-verde">2026</span>
-          </Link>
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-y-auto border-r border-regla bg-papel lg:flex">
+        <div className="px-5 pb-7 pt-7">
+          <Brand />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 border-t border-regla pt-4">
           <NavLinks pathname={pathname} />
         </div>
 
-        <div className="shrink-0 border-t border-regla px-5 py-4">
-          <p className="text-[12px] leading-relaxed text-tinta-suave">
-            Documentos conforme a SENIAT
-          </p>
-          <div className="mt-3">
-            <SignOutButton />
-          </div>
-        </div>
+        <Footer />
       </aside>
 
       <main className="min-w-0 flex-1 px-4 py-6 sm:px-8 lg:px-12 lg:py-8">
