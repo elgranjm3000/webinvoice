@@ -55,31 +55,3 @@ export function TableSearch({
     </div>
   );
 }
-
-/** Formulario de maestro colapsable: <details> nativo, sin JavaScript. */
-export function CollapsibleForm({
-  title,
-  editing,
-  children,
-}: {
-  title: string;
-  editing: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <details open={editing} className="card mb-12">
-      <summary className="list-none cursor-pointer select-none px-6 py-4 text-[15px] font-semibold tracking-tight transition-colors hover:bg-papel-2/60 [&::-webkit-details-marker]:hidden">
-        <span className="flex items-center justify-between">
-          {title}
-          <span
-            aria-hidden
-            className="text-[13px] font-normal text-tinta-suave"
-          >
-            {editing ? "" : "Abrir"}
-          </span>
-        </span>
-      </summary>
-      <div className="border-t border-regla p-6">{children}</div>
-    </details>
-  );
-}

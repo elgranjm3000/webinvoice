@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState } from "@/components/ui";
+import { PageHeader, EmptyState, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import {
   createWarehouse,
@@ -29,9 +29,9 @@ type StockRow = {
 export default async function Almacenes({
   searchParams,
 }: {
-  searchParams: Promise<{ ok?: string; error?: string; edit?: string }>;
+  searchParams: Promise<{ ok?: string; error?: string; edit?: string; nuevo?: string }>;
 }) {
-  const { ok, error: notice, edit } = await searchParams;
+  const { ok, error: notice, edit, nuevo } = await searchParams;
   const sb = supabaseServer();
   const [{ data: wh, error: eWh }, { data: stock, error: eStock }] =
     await Promise.all([
@@ -71,6 +71,11 @@ export default async function Almacenes({
       <PageHeader
         title="Almacenes"
         subtitle="Existencias por ubicación"
+        action={
+          <a href="/almacenes?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+            Registrar almacén
+          </a>
+        }
       />
 
       {notice && (
@@ -84,13 +89,12 @@ export default async function Almacenes({
         </p>
       )}
 
-      <form
-        action={editing ? updateWarehouse : createWarehouse}
-        className="mb-12 card p-6"
+      <Modal
+        open={Boolean(editing) || nuevo === "1"}
+        title={editing ? `Editar almacén: ${editing.name}` : "Registrar almacén"}
+        onCloseHref="/almacenes"
       >
-        <h2 className="mb-5 border-b border-regla pb-3 text-[15px] font-semibold tracking-tight">
-          {editing ? `Editar almacén — ${editing.name}` : "Registrar almacén"}
-        </h2>
+      <form action={editing ? updateWarehouse : createWarehouse}>
         {editing && <input type="hidden" name="id" value={editing.id} />}
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-[13px] text-tinta-suave">
@@ -98,6 +102,7 @@ export default async function Almacenes({
             <input
               name="code"
               required
+              autoFocus
               placeholder="ALM-03"
               defaultValue={editing?.code ?? ""}
               className={`num mt-1.5 ${inp}`}
@@ -157,6 +162,7 @@ export default async function Almacenes({
           )}
         </div>
       </form>
+      </Modal>
 
       {warehouses.length === 0 ? (
         <EmptyState

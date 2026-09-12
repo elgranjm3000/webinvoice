@@ -3,7 +3,8 @@ export const dynamic = "force-dynamic";
 import { supabaseServer } from "@/lib/supabase";
 import { PageHeader, EmptyState } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
-import { TableSearch, CollapsibleForm } from "@/components/TableSearch";
+import { TableSearch } from "@/components/TableSearch";
+import { Modal } from "@/components/ui";
 import { createCustomer, updateCustomer, deleteCustomer } from "./actions";
 
 type Customer = {
@@ -83,16 +84,17 @@ export default async function Clientes({
         </p>
       )}
 
-      <CollapsibleForm
+      <Modal
+        open={Boolean(editing) || nuevo === "1"}
         title={editing ? `Editar cliente: ${editing.legal_name}` : "Registrar cliente"}
-        editing={Boolean(editing) || nuevo === "1"}
+        onCloseHref="/clientes"
       >
         <form action={editing ? updateCustomer : createCustomer}>
         {editing && <input type="hidden" name="id" value={editing.id} />}
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-[13px] text-tinta-suave sm:col-span-2">
             Razón social
-            <input name="legal_name" required maxLength={200} defaultValue={editing?.legal_name ?? ""} className={`mt-1.5 ${inp}`} />
+            <input name="legal_name" required maxLength={200} autoFocus defaultValue={editing?.legal_name ?? ""} className={`mt-1.5 ${inp}`} />
           </label>
           <label className="block text-[13px] text-tinta-suave">
             Tipo de RIF
@@ -139,7 +141,7 @@ export default async function Clientes({
           )}
         </div>
         </form>
-      </CollapsibleForm>
+      </Modal>
 
       <TableSearch
         action="/clientes"

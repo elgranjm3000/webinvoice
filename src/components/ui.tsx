@@ -143,6 +143,53 @@ export function Amount({
   );
 }
 
+/**
+ * Ventana modal sin JavaScript: la apertura vive en la URL (?nuevo=1 /
+ * ?edit=id), así que el componente solo pinta si `open`. El cierre es un
+ * enlace a la misma pantalla sin parámetros — funciona siempre.
+ */
+export function Modal({
+  open,
+  title,
+  onCloseHref,
+  children,
+}: {
+  open: boolean;
+  title: string;
+  onCloseHref: string;
+  children: React.ReactNode;
+}) {
+  if (!open) return null;
+  return (
+    <div
+      className="fixed inset-0 z-40 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
+      {/* Fondo: clicable, cierra la ventana */}
+      <a
+        href={onCloseHref}
+        aria-label="Cerrar"
+        className="fixed inset-0 cursor-default bg-tinta/60"
+      />
+      <div className="modal-card card relative mx-auto my-[7vh] w-[min(92vw,34rem)] p-6 shadow-[0_24px_64px_rgba(22,33,28,0.35)]">
+        <div className="mb-5 flex items-start justify-between gap-4 border-b border-regla pb-4">
+          <h2 className="text-[16px] font-semibold tracking-tight">{title}</h2>
+          <a
+            href={onCloseHref}
+            aria-label="Cerrar ventana"
+            className="-mr-1 px-1.5 text-[18px] leading-none text-tinta-suave transition-colors hover:text-tinta"
+          >
+            ✕
+          </a>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 const STATUS_LABEL: Record<string, string> = {
   issued: "Emitida",
   partially_paid: "Abonada",

@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState } from "@/components/ui";
+import { PageHeader, EmptyState, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import { createUnit, updateUnit, deleteUnit } from "./actions";
 
@@ -14,9 +14,9 @@ type Unit = {
 export default async function Unidades({
   searchParams,
 }: {
-  searchParams: Promise<{ ok?: string; error?: string; edit?: string }>;
+  searchParams: Promise<{ ok?: string; error?: string; edit?: string; nuevo?: string }>;
 }) {
-  const { ok, error: notice, edit } = await searchParams;
+  const { ok, error: notice, edit, nuevo } = await searchParams;
   const { data, error } = await supabaseServer()
     .from("units_of_measure")
     .select("id, code, name")
@@ -46,6 +46,11 @@ export default async function Unidades({
       <PageHeader
         title="Unidades"
         subtitle="Unidades de medida del catálogo de productos"
+        action={
+          <a href="/unidades?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+            Registrar unidad
+          </a>
+        }
       />
 
       {notice && (
@@ -59,13 +64,13 @@ export default async function Unidades({
         </p>
       )}
 
-      <form
-        action={editing ? updateUnit : createUnit}
-        className="mb-12 card p-6"
+      <Modal
+        open={Boolean(editing) || nuevo === "1"}
+        title={editing ? `Editar unidad: ${editing.name}` : "Registrar unidad"}
+        onCloseHref="/unidades"
       >
-        <h2 className="mb-5 border-b border-regla pb-3 text-[15px] font-semibold tracking-tight">
-          {editing ? `Editar unidad — ${editing.name}` : "Registrar unidad"}
-        </h2>
+      <form action={editing ? updateUnit : createUnit}>
+        {editing && <input type="hidden" name="id" value={editing.id} />}
         {editing && <input type="hidden" name="id" value={editing.id} />}
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-[13px] text-tinta-suave">
@@ -74,6 +79,7 @@ export default async function Unidades({
               name="code"
               required
               maxLength={10}
+              autoFocus
               placeholder="UND"
               defaultValue={editing?.code ?? ""}
               className={`num mt-1.5 ${inp}`}
@@ -105,6 +111,7 @@ export default async function Unidades({
           )}
         </div>
       </form>
+      </Modal>
 
       {rows.length === 0 ? (
         <EmptyState

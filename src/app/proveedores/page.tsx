@@ -1,9 +1,9 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState } from "@/components/ui";
+import { PageHeader, EmptyState, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
-import { TableSearch, CollapsibleForm } from "@/components/TableSearch";
+import { TableSearch } from "@/components/TableSearch";
 import { createSupplier, updateSupplier, deleteSupplier } from "./actions";
 
 type Supplier = {
@@ -83,9 +83,10 @@ export default async function Proveedores({
         </p>
       )}
 
-      <CollapsibleForm
+      <Modal
+        onCloseHref="/proveedores"
+        open={Boolean(editing) || nuevo === "1"}
         title={editing ? `Editar proveedor: ${editing.legal_name}` : "Registrar proveedor"}
-        editing={Boolean(editing) || nuevo === "1"}
       >
         <form action={editing ? updateSupplier : createSupplier}>
         {editing && <input type="hidden" name="id" value={editing.id} />}
@@ -139,7 +140,7 @@ export default async function Proveedores({
           )}
         </div>
         </form>
-      </CollapsibleForm>
+      </Modal>
 
       <TableSearch
         action="/proveedores"
