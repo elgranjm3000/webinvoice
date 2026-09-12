@@ -69,6 +69,11 @@ export default async function Productos({
       <PageHeader
         title="Productos"
         subtitle="Catálogo de bienes y servicios"
+        action={
+          <a href="/productos?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+            Registrar producto
+          </a>
+        }
       />
 
       {notice && (
