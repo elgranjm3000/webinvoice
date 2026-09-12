@@ -26,6 +26,11 @@ type Line = {
 
 let seq = 0;
 
+/**
+ * Punto de venta con la piel del "mostrador": superficie oscura en tinta
+ * donde flotan el catálogo y el ticket en papel blanco — el documento
+ * fiscal se destaca como el único objeto claro de la pantalla.
+ */
 export function POSForm({
   customers,
   emissionPoints,
@@ -160,51 +165,82 @@ export function POSForm({
     });
   };
 
-  const sel =
-    "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+  /* Superficie del mostrador: inputs y catálogo en modo oscuro */
+  const darkInput =
+    "mt-1.5 w-full border border-white/15 bg-white/[0.06] px-3 py-2 text-[14px] text-papel focus:border-verde-claro focus:outline-none";
+  const darkLabel = "block text-[11.5px] font-medium text-papel/50";
 
   return (
-    <div className="grid items-start gap-8 lg:grid-cols-[1fr_20rem]">
-      {/* Columna izquierda: venta */}
-      <div className="min-w-0">
-        {error && (
-          <p role="alert" className="mb-6 border-l-2 border-rojo bg-white px-4 py-3 text-[14px] text-rojo">
-            {error}
-          </p>
-        )}
-
-        <div className="grid gap-4 sm:grid-cols-3">
-          <label className="block text-[13px] text-tinta-suave">
-            Cliente
-            <select value={customerId} onChange={(e) => setCustomerId(e.target.value)} className={`mt-1.5 ${sel}`}>
-              <option value="">Selecciona…</option>
-              {customers.map((c) => (
-                <option key={c.id} value={c.id}>{c.label}</option>
-              ))}
-            </select>
-          </label>
-          <label className="block text-[13px] text-tinta-suave">
-            Punto de emisión
-            <select value={pointId} onChange={(e) => setPointId(e.target.value)} className={`mt-1.5 ${sel}`}>
-              {emissionPoints.map((p) => (
-                <option key={p.id} value={p.id}>{p.label}</option>
-              ))}
-            </select>
-          </label>
-          <label className="block text-[13px] text-tinta-suave">
-            Despachar desde
-            <select value={warehouseId} onChange={(e) => setWarehouseId(e.target.value)} className={`mt-1.5 ${sel}`}>
-              {warehouses.map((w) => (
-                <option key={w.id} value={w.id}>{w.label}</option>
-              ))}
-            </select>
-          </label>
+    <div className="border border-tinta bg-tinta text-papel">
+      {/* Barra superior del mostrador: quién, desde dónde, en qué moneda */}
+      <div className="flex flex-wrap items-end gap-4 border-b border-white/10 px-5 py-4">
+        <label className={`min-w-0 flex-1 sm:max-w-56 ${darkLabel}`}>
+          Cliente
+          <select
+            value={customerId}
+            onChange={(e) => setCustomerId(e.target.value)}
+            className={`${darkInput} [&>option]:bg-tinta`}
+          >
+            <option value="">Selecciona…</option>
+            {customers.map((c) => (
+              <option key={c.id} value={c.id}>{c.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className={`min-w-0 flex-1 sm:max-w-44 ${darkLabel}`}>
+          Punto de emisión
+          <select
+            value={pointId}
+            onChange={(e) => setPointId(e.target.value)}
+            className={`${darkInput} [&>option]:bg-tinta`}
+          >
+            {emissionPoints.map((p) => (
+              <option key={p.id} value={p.id}>{p.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className={`min-w-0 flex-1 sm:max-w-44 ${darkLabel}`}>
+          Despachar desde
+          <select
+            value={warehouseId}
+            onChange={(e) => setWarehouseId(e.target.value)}
+            className={`${darkInput} [&>option]:bg-tinta`}
+          >
+            {warehouses.map((w) => (
+              <option key={w.id} value={w.id}>{w.label}</option>
+            ))}
+          </select>
+        </label>
+        <div className="flex border border-white/15 text-[13px] font-medium">
+          {(["USD", "VES"] as const).map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => changeCurrency(c)}
+              aria-pressed={cur === c}
+              className={`px-4 py-2 transition-colors ${
+                cur === c
+                  ? "bg-verde text-white"
+                  : "text-papel/60 hover:bg-white/10"
+              }`}
+            >
+              {c === "USD" ? "$ USD" : "Bs."}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Búsqueda + moneda */}
-        <div className="mt-8 flex items-end gap-4">
-          <label className="min-w-0 flex-1 text-[13px] text-tinta-suave">
-            Buscar producto
+      <div className="grid items-start gap-6 p-5 lg:grid-cols-[1fr_21rem]">
+        {/* Columna izquierda: catálogo sobre el mostrador */}
+        <div className="min-w-0">
+          {error && (
+            <p role="alert" className="mb-5 border-l-2 border-[#e2857a] bg-[#3a1f1a] px-4 py-3 text-[14px] leading-relaxed text-[#f2b8ad]">
+              {error}
+            </p>
+          )}
+
+          <label className={`block ${darkLabel}`}>
+            <span className="sr-only">Buscar producto</span>
             <input
               ref={searchRef}
               type="search"
@@ -217,190 +253,173 @@ export function POSForm({
                   addAndRefocus(filtered[0]);
                 }
               }}
-              placeholder="Código o descripción… (Enter agrega el primero)"
-              className="mt-1.5 w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+              placeholder="Buscar producto — código o descripción… (Enter agrega el primero)"
+              className="!mt-0 w-full border border-white/15 bg-white/[0.06] px-4 py-3 text-[15px] text-papel placeholder:text-papel/35 focus:border-verde-claro focus:outline-none"
             />
           </label>
-          <div className="flex border border-tinta text-[13px] font-medium">
-            {(["USD", "VES"] as const).map((c) => (
+
+          <div className="mt-4 grid auto-rows-fr grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
+            {filtered.map((p) => (
               <button
-                key={c}
+                key={p.id}
                 type="button"
-                onClick={() => changeCurrency(c)}
-                aria-pressed={cur === c}
-                className={`px-4 py-2 transition-colors ${
-                  cur === c
-                    ? "bg-papel-2 font-semibold text-verde"
-                    : "bg-white text-tinta-suave hover:bg-papel-2"
-                }`}
+                onClick={() => addAndRefocus(p)}
+                className="flex h-full flex-col border border-white/10 bg-white/[0.05] p-3.5 text-left transition-colors duration-150 hover:border-verde-claro/70 hover:bg-white/[0.09] focus-visible:border-verde-claro focus-visible:outline-none active:scale-[0.98]"
               >
-                {c === "USD" ? "$ USD" : "Bs."}
+                <p className="num text-[11px] text-papel/40">{p.code}</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-[13.5px] font-medium leading-snug text-papel">
+                  {p.description}
+                </p>
+                <p className="num mt-auto pt-2 text-[16px] font-bold text-verde-claro">
+                  {cur === "VES" && rate > 0 ? fmtBs(p.price_usd * rate) : fmtUsd(p.price_usd)}
+                </p>
+                <p className={`text-[11px] ${p.applies_vat ? "text-papel/40" : "text-verde-claro"}`}>
+                  {p.applies_vat ? `IVA ${Number(p.vat_rate ?? 0)}%` : "Exento"}
+                </p>
               </button>
             ))}
+            {filtered.length === 0 && (
+              <p className="col-span-full border border-dashed border-white/20 px-4 py-8 text-center text-[14px] text-papel/50">
+                Ningún producto coincide con «{query}».
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Catálogo */}
-        <div className="mt-4 grid auto-rows-fr grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((p) => (
+        {/* Columna derecha: el ticket en papel, el único objeto claro */}
+        <aside className="border border-tinta bg-white text-tinta shadow-[0_12px_32px_rgba(0,0,0,0.35)] lg:sticky lg:top-6">
+          <div className="border-b-2 border-verde px-5 pb-3 pt-4">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="text-[13px] font-semibold tracking-tight">Ticket</p>
+              <p className="num text-[12px] text-tinta-suave">
+                Tasa BCV {rate > 0 ? fmtQty(rate) : "—"}
+              </p>
+            </div>
+            <p className="mt-0.5 truncate text-[12px] text-tinta-suave">
+              {customers.find((c) => c.id === customerId)?.label ?? "Sin cliente"}
+            </p>
+          </div>
+
+          {/* Renglones del ticket */}
+          <div className="max-h-[38vh] overflow-y-auto lg:max-h-[42vh]">
+            {lines.length === 0 ? (
+              <p className="px-5 py-8 text-center text-[13px] leading-relaxed text-tinta-suave">
+                Toca un producto del catálogo, o busca y pulsa Enter.
+              </p>
+            ) : (
+              <ul className="divide-y divide-regla">
+                {lines.map((l) => {
+                  const unitUsd = cur === "VES" && rate > 0 ? l.price / rate : l.price;
+                  return (
+                    <li key={l.key} className="px-5 py-2.5">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="truncate text-[13.5px] font-medium">{l.product.description}</p>
+                        <p className="num shrink-0 text-[13.5px] font-semibold">
+                          {showPrice(unitUsd * l.qty)}
+                        </p>
+                      </div>
+                      <div className="mt-1 flex items-center gap-2">
+                        <div className="flex items-center border border-regla">
+                          <button
+                            type="button"
+                            aria-label="Restar"
+                            onClick={() =>
+                              l.qty > 1
+                                ? setLine(l.key, { qty: l.qty - 1 })
+                                : setLines((ls) => ls.filter((x) => x.key !== l.key))
+                            }
+                            className="px-2 py-0.5 text-[15px] leading-none text-tinta-suave hover:bg-papel-2"
+                          >
+                            −
+                          </button>
+                          <input
+                            type="number"
+                            min="1"
+                            step="any"
+                            value={l.qty}
+                            onChange={(e) => setLine(l.key, { qty: Math.max(Number(e.target.value) || 0, 0) })}
+                            aria-label="Cantidad"
+                            className="num w-11 border-x border-regla px-1 py-1 text-center text-[13px] focus:outline-none"
+                          />
+                          <button
+                            type="button"
+                            aria-label="Sumar"
+                            onClick={() => setLine(l.key, { qty: l.qty + 1 })}
+                            className="px-2 py-0.5 text-[15px] leading-none text-tinta-suave hover:bg-papel-2"
+                          >
+                            +
+                          </button>
+                        </div>
+                        <label className="text-[11px] text-tinta-suave">
+                          <span className="sr-only">Precio unitario</span>
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            value={l.price}
+                            onChange={(e) => setLine(l.key, { price: Math.max(Number(e.target.value) || 0, 0) })}
+                            className="num w-20 border border-regla px-2 py-1 text-right text-[13px] focus:border-verde focus:outline-none"
+                          />
+                        </label>
+                        <span className="num text-[11px] text-tinta-suave">
+                          {l.product.applies_vat ? `IVA ${Number(l.product.vat_rate ?? 0)}%` : "Exento"}
+                        </span>
+                        <button
+                          type="button"
+                          aria-label={`Quitar ${l.product.description}`}
+                          onClick={() => setLines((ls) => ls.filter((x) => x.key !== l.key))}
+                          className="ml-auto text-[15px] leading-none text-tinta-suave hover:text-rojo"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+
+          {/* Totales */}
+          <dl className="space-y-1 border-t border-regla px-5 py-3 text-[12.5px]">
+            <div className="flex justify-between">
+              <dt className="text-tinta-suave">Exento</dt>
+              <dd className="num">{fmtUsd(totals.exempt)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-tinta-suave">Base imponible</dt>
+              <dd className="num">{fmtUsd(totals.taxable)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-tinta-suave">IVA</dt>
+              <dd className="num">{fmtUsd(totals.vat)}</dd>
+            </div>
+          </dl>
+
+          <div className="border-t-2 border-tinta bg-papel px-5 pb-4 pt-3">
+            <p className="num text-[34px] font-bold leading-none tracking-tight">
+              {fmtUsd(totals.total)}
+            </p>
+            <p className="num mt-1.5 text-[15px] font-medium text-ambar">
+              {rate > 0 ? fmtBs(totals.total * rate) : "Sin tasa BCV"}
+            </p>
             <button
-              key={p.id}
               type="button"
-              onClick={() => addAndRefocus(p)}
-              className="flex h-full flex-col border border-regla bg-white p-3 text-left transition-colors hover:border-verde focus-visible:border-verde focus-visible:outline-none"
+              onClick={emit}
+              disabled={pending || lines.length === 0 || !customerId || totals.total === 0}
+              className="mt-4 min-h-[48px] w-full bg-verde px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#174e41] active:bg-[#123f35] disabled:cursor-not-allowed disabled:bg-tinta-suave/30 disabled:text-papel/60"
             >
-              <p className="num text-[12px] text-tinta-suave">{p.code}</p>
-              <p className="mt-0.5 line-clamp-2 min-h-8 text-[13px] leading-snug">
-                {p.description}
-              </p>
-              <p className="num mt-1.5 text-[14px] font-semibold">
-                {cur === "VES" && rate > 0 ? fmtBs(p.price_usd * rate) : fmtUsd(p.price_usd)}
-              </p>
-              <p className={`text-[11px] ${p.applies_vat ? "text-tinta-suave" : "text-verde"}`}>
-                {p.applies_vat ? `IVA ${Number(p.vat_rate ?? 0)}%` : "Exento"}
-              </p>
+              {pending ? "Emitiendo…" : "Emitir factura"}
             </button>
-          ))}
-          {filtered.length === 0 && (
-            <p className="col-span-full border border-dashed border-regla bg-white px-4 py-6 text-center text-[14px] text-tinta-suave">
-              Ningún producto coincide con «{query}».
-            </p>
-          )}
-        </div>
-
-        {/* Ticket */}
-        <h2 className="mb-3 mt-10 border-b border-tinta pb-2 text-[13px] font-medium text-tinta-suave">
-          Ticket — {lines.length} {lines.length === 1 ? "línea" : "líneas"}
-        </h2>
-        {lines.length === 0 ? (
-          <p className="border border-dashed border-regla bg-white px-4 py-8 text-center text-[14px] text-tinta-suave">
-            Haz clic en un producto del catálogo, o busca y pulsa Enter para agregarlo.
-          </p>
-        ) : (
-          <ul className="divide-y divide-regla border border-regla bg-white">
-            {lines.map((l) => {
-              const unitUsd = cur === "VES" && rate > 0 ? l.price / rate : l.price;
-              return (
-                <li key={l.key} className="flex items-center gap-3 px-3 py-2.5">
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[14px]">{l.product.description}</p>
-                    <p className="num text-[12px] text-tinta-suave">
-                      {l.product.code} · {l.product.applies_vat ? `IVA ${Number(l.product.vat_rate ?? 0)}%` : "Exento"}
-                    </p>
-                  </div>
-                  <div className="flex items-center border border-regla">
-                    <button
-                      type="button"
-                      aria-label="Restar"
-                      onClick={() =>
-                        l.qty > 1
-                          ? setLine(l.key, { qty: l.qty - 1 })
-                          : setLines((ls) => ls.filter((x) => x.key !== l.key))
-                      }
-                      className="px-2.5 py-1.5 text-[16px] leading-none text-tinta-suave hover:bg-papel-2"
-                    >
-                      −
-                    </button>
-                    <input
-                      type="number"
-                      min="1"
-                      step="any"
-                      value={l.qty}
-                      onChange={(e) => setLine(l.key, { qty: Math.max(Number(e.target.value) || 0, 0) })}
-                      aria-label="Cantidad"
-                      className="num w-12 border-x border-regla px-1 py-1.5 text-center text-[14px] focus:outline-none"
-                    />
-                    <button
-                      type="button"
-                      aria-label="Sumar"
-                      onClick={() => setLine(l.key, { qty: l.qty + 1 })}
-                      className="px-2.5 py-1.5 text-[16px] leading-none text-tinta-suave hover:bg-papel-2"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <label className="text-[12px] text-tinta-suave">
-                    <span className="sr-only">Precio unitario</span>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={l.price}
-                      onChange={(e) => setLine(l.key, { price: Math.max(Number(e.target.value) || 0, 0) })}
-                      className="num w-20 rounded-none border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
-                    />
-                  </label>
-                  <p className="num w-20 text-right text-[14px] font-medium">
-                    {showPrice(unitUsd * l.qty)}
-                  </p>
-                  <button
-                    type="button"
-                    aria-label={`Quitar ${l.product.description}`}
-                    onClick={() => setLines((ls) => ls.filter((x) => x.key !== l.key))}
-                    className="text-[16px] leading-none text-tinta-suave hover:text-rojo"
-                  >
-                    ×
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+            {(lines.length === 0 || !customerId) && (
+              <p className="mt-2.5 text-center text-[11.5px] leading-relaxed text-tinta-suave">
+                {!customerId ? "Elige un cliente arriba. " : ""}
+                {lines.length === 0 ? "Agrega productos al ticket." : ""}
+              </p>
+            )}
+          </div>
+        </aside>
       </div>
-
-      {/* Columna derecha: comprobante (cinta fiscal) */}
-      <aside className="border border-tinta bg-white lg:sticky lg:top-6">
-        <div className="border-b-[3px] border-tinta px-5 pb-3 pt-4">
-          <p className="text-[12px] text-tinta-suave">Comprobante</p>
-          <p className="num mt-1 text-[15px] font-semibold">
-            Tasa BCV {rate > 0 ? fmtQty(rate) : "—"}
-          </p>
-          <p className="mt-0.5 truncate text-[12px] text-tinta-suave">
-            {customers.find((c) => c.id === customerId)?.label ?? "Sin cliente"}
-          </p>
-        </div>
-
-        <dl className="space-y-1.5 px-5 py-4 text-[13px]">
-          <div className="flex justify-between">
-            <dt className="text-tinta-suave">Exento</dt>
-            <dd className="num">{fmtUsd(totals.exempt)}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-tinta-suave">Base imponible</dt>
-            <dd className="num">{fmtUsd(totals.taxable)}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-tinta-suave">IVA</dt>
-            <dd className="num">{fmtUsd(totals.vat)}</dd>
-          </div>
-        </dl>
-
-        <div className="border-t border-regla px-5 pb-1 pt-3">
-          <p className="num text-[30px] font-semibold leading-none">
-            {fmtUsd(totals.total)}
-          </p>
-          <p className="num mt-1.5 text-[15px] font-medium text-ambar">
-            {rate > 0 ? fmtBs(totals.total * rate) : "Sin tasa BCV"}
-          </p>
-        </div>
-
-        <div className="border-t border-regla p-5">
-          <button
-            type="button"
-            onClick={emit}
-            disabled={pending || lines.length === 0 || !customerId || totals.total === 0}
-            className="w-full bg-verde px-6 py-3 text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {pending ? "Emitiendo…" : "Emitir factura"}
-          </button>
-          {(lines.length === 0 || !customerId) && (
-            <p className="mt-3 text-[12px] leading-relaxed text-tinta-suave">
-              {!customerId ? "Elige un cliente. " : ""}
-              {lines.length === 0 ? "Agrega productos al ticket." : ""}
-            </p>
-          )}
-        </div>
-      </aside>
     </div>
   );
 }
