@@ -38,6 +38,32 @@ body {
   outline-offset: 2px;
 }
 
+/* Presión táctil: todo botón responde al clic (CSS, sin JS) */
+button:not(:disabled) {
+  transition: transform 120ms ease-out, background-color 120ms ease-out,
+    border-color 120ms ease-out, color 120ms ease-out, opacity 120ms ease-out;
+}
+button:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* Elevación en capas para superficies destacadas (fintech, sin bordes duros) */
+.card-lift {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow:
+    0 0 0 1px rgba(22, 33, 28, 0.04),
+    0 1px 2px -1px rgba(22, 33, 28, 0.06),
+    0 2px 6px rgba(22, 33, 28, 0.04);
+}
+.card-lift:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(22, 33, 28, 0.05),
+    0 2px 4px -1px rgba(22, 33, 28, 0.07),
+    0 6px 16px rgba(22, 33, 28, 0.06);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;

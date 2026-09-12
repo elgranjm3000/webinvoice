@@ -29,17 +29,77 @@ export function Stat({
   label,
   value,
   detail,
+  hero = false,
+  spark,
 }: {
   label: string;
   value: string;
   detail?: React.ReactNode;
+  /** Cifra protagonista del panel: más grande, con la etiqueta encima. */
+  hero?: boolean;
+  /** Mini-gráfico de línea (SVG) junto a la cifra. */
+  spark?: React.ReactNode;
 }) {
+  if (hero) {
+    return (
+      <div className="card-lift col-span-2 border-t-2 border-verde bg-white px-5 py-4 lg:col-span-2">
+        <p className="text-[12px] text-tinta-suave">{label}</p>
+        <div className="mt-1 flex items-end justify-between gap-4">
+          <p className="num text-[32px] font-semibold leading-none tracking-tight">
+            {value}
+          </p>
+          {spark && <div aria-hidden className="pb-1">{spark}</div>}
+        </div>
+        {detail && <p className="num mt-2 text-[12.5px] text-ambar">{detail}</p>}
+      </div>
+    );
+  }
   return (
     <div className="border-t-2 border-tinta pt-3">
       <p className="num text-[22px] font-semibold leading-none">{value}</p>
       <p className="mt-2 text-[13px] text-tinta-suave">{label}</p>
       {detail && <p className="num mt-1 text-[13px] text-ambar">{detail}</p>}
     </div>
+  );
+}
+
+/** Sparkline: línea de tendencia mínima en SVG puro. */
+export function Sparkline({
+  values,
+  width = 120,
+  height = 36,
+}: {
+  values: number[];
+  width?: number;
+  height?: number;
+}) {
+  if (values.length < 2) return null;
+  const max = Math.max(...values, 0.01);
+  const min = Math.min(...values, 0);
+  const span = max - min || 1;
+  const step = width / (values.length - 1);
+  const pts = values.map((v, i) => {
+    const x = i * step;
+    const y = height - 3 - ((v - min) / span) * (height - 6);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  return (
+    <svg width={width} height={height} role="img" aria-label="Tendencia">
+      <polyline
+        points={pts.join(" ")}
+        fill="none"
+        stroke="#1C5D4E"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      <circle
+        cx={width}
+        cy={height - 3 - ((values[values.length - 1] - min) / span) * (height - 6)}
+        r="2.5"
+        fill="#1C5D4E"
+      />
+    </svg>
   );
 }
 

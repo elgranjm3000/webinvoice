@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, Stat, EmptyState } from "@/components/ui";
+import { PageHeader, Stat, EmptyState, Sparkline } from "@/components/ui";
 import { fmtUsd, fmtBs, fmtDate } from "@/lib/format";
 import Link from "next/link";
 
@@ -73,12 +73,14 @@ export default async function Dashboard() {
       ) : (
         <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
           <Stat
-            label="Facturas emitidas (mes)"
-            value={String(inv.length)}
+            label="Facturación en dólares (mes)"
+            value={fmtUsd(totalUsd)}
+            hero
+            spark={<Sparkline values={byDay.map((d) => d.value)} />}
           />
           <Stat
-            label="Facturación en dólares"
-            value={fmtUsd(totalUsd)}
+            label="Facturas emitidas (mes)"
+            value={String(inv.length)}
           />
           <Stat
             label="Facturación en bolívares"

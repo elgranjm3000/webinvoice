@@ -54,7 +54,7 @@ export default async function Login({
 
       {/* Hoja del formulario */}
       <section className="flex flex-1 flex-col justify-center px-6 py-12 sm:px-10 lg:px-16">
-        <div className="mx-auto w-full max-w-[400px]">
+        <div className="card-lift mx-auto w-full max-w-[400px] border border-regla bg-white p-7 sm:p-8">
           <header className="mb-8">
             <p className="text-[12.5px] text-tinta-suave">Acceso al sistema</p>
             <h1 className="mt-1 text-[22px] font-semibold leading-tight tracking-tight">
