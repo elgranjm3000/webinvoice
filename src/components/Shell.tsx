@@ -31,6 +31,7 @@ const NAV: { group: string; items: { href: string; label: string }[] }[] = [
     group: "Consultas",
     items: [
       { href: "/libro-ventas", label: "Libro de ventas" },
+      { href: "/margenes", label: "Márgenes" },
       { href: "/kardex", label: "Kardex" },
       { href: "/tasa", label: "Tasa BCV" },
     ],

@@ -31,6 +31,7 @@ export function Stat({
   detail,
   hero = false,
   spark,
+  tone = "tinta",
 }: {
   label: string;
   value: string;
@@ -39,6 +40,8 @@ export function Stat({
   hero?: boolean;
   /** Mini-gráfico de línea (SVG) junto a la cifra. */
   spark?: React.ReactNode;
+  /** Color de la regla superior (semántica: dinero=verde, alerta=ámbar). */
+  tone?: "tinta" | "verde" | "ambar";
 }) {
   if (hero) {
     return (
@@ -55,10 +58,14 @@ export function Stat({
     );
   }
   return (
-    <div className="border-t-2 border-tinta pt-3">
-      <p className="num text-[22px] font-semibold leading-none">{value}</p>
-      <p className="mt-2 text-[13px] text-tinta-suave">{label}</p>
-      {detail && <p className="num mt-1 text-[13px] text-ambar">{detail}</p>}
+    <div
+      className={`card-lift border-t-2 bg-white px-5 py-4 ${
+        tone === "verde" ? "border-verde" : tone === "ambar" ? "border-ambar" : "border-tinta"
+      }`}
+    >
+      <p className="text-[12px] text-tinta-suave">{label}</p>
+      <p className="num mt-1.5 text-[22px] font-semibold leading-none tracking-tight">{value}</p>
+      {detail && <p className="num mt-1.5 text-[12.5px] text-ambar">{detail}</p>}
     </div>
   );
 }

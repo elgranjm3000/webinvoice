@@ -85,6 +85,7 @@ export default async function Dashboard() {
           <Stat
             label="Facturación en bolívares"
             value={fmtBs(totalVes)}
+            tone="verde"
           />
           <Stat
             label="Tasa BCV vigente"
