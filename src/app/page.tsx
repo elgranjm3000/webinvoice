@@ -97,25 +97,41 @@ export default async function Dashboard() {
 
       {inv && inv.length > 0 && (
         <>
-          <section className="mt-14 max-w-3xl">
-            <h2 className="mb-4 text-[13px] font-medium text-tinta-suave">
-              Facturación por día — mes en curso (USD)
-            </h2>
+          <section className="card mt-14 max-w-3xl p-5 sm:p-6">
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-[13px] font-medium text-tinta-suave">
+                Facturación por día — mes en curso (USD)
+              </h2>
+              <p className="num text-[12px] text-tinta-suave">
+                Total {fmtUsd(totalUsd)} · pico{" "}
+                {fmtUsd(Math.max(...byDay.map((d) => d.value)))} el día{" "}
+                {byDay.findIndex((d) => d.value === Math.max(...byDay.map((x) => x.value))) + 1}
+              </p>
+            </div>
             <BarChart
-              points={byDay.map((d) => ({
+              slot={30}
+              barW={16}
+              points={byDay.map((d, i) => ({
                 label: String(Number(d.key.slice(-2))),
                 value: d.value,
-                showValue: d.value === Math.max(...byDay.map((x) => x.value)) && d.value > 0,
-                caption: `${fmtUsd(d.value)} — ${fmtDate(d.key)}`,
+                isToday: i === byDay.length - 1,
+                caption: `${fmtUsd(d.value)} — ${fmtDate(d.key)}${i === byDay.length - 1 ? " (hoy)" : ""}`,
               }))}
             />
           </section>
 
-          <section className="mt-12 max-w-3xl">
-            <h2 className="mb-4 text-[13px] font-medium text-tinta-suave">
-              Últimos 6 meses (USD)
-            </h2>
+          <section className="card mt-6 max-w-3xl p-5 sm:p-6">
+            <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="text-[13px] font-medium text-tinta-suave">
+                Últimos 6 meses (USD)
+              </h2>
+              <p className="num text-[12px] text-tinta-suave">
+                Promedio {fmtUsd(byMonth.reduce((s, m) => s + m.value, 0) / 6)}/mes
+              </p>
+            </div>
             <BarChart
+              slot={56}
+              barW={36}
               points={byMonth.map((m) => ({
                 label: m.label,
                 value: m.value,
@@ -221,12 +237,28 @@ function monthlySeries(rows: Row[]): Serie[] {
  */
 function BarChart({
   points,
+  slot = 44,
+  barW = 32,
 }: {
-  points: { label: string; value: number; showValue?: boolean; caption: string }[];
+  points: {
+    label: string;
+    value: number;
+    showValue?: boolean;
+    isToday?: boolean;
+    caption: string;
+  }[];
+  slot?: number;
+  barW?: number;
 }) {
-  const W = points.length * 44 + 8;
-  const H = 140;
+  const H = 150;
+  const baseY = 118; // línea base de las barras
+  const chartTop = 14; // holgura para etiquetas de valor
+  const W = points.length * slot + 34; // +34: margen para el eje izquierdo
   const max = Math.max(...points.map((p) => p.value), 0.01);
+
+  const half = max / 2;
+  const fmtTick = (v: number) =>
+    v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v.toFixed(v < 10 ? 1 : 0);
 
   return (
     <div className="overflow-x-auto">
@@ -238,38 +270,63 @@ function BarChart({
         aria-label="Gráfico de barras"
         className="block"
       >
+        {/* Rejilla de referencia: mitad y máximo, con su valor en el eje */}
+        {[half, max].map((v, i) => {
+          const y = baseY - (v / max) * (baseY - chartTop);
+          return (
+            <g key={i}>
+              <line x1={30} y1={y} x2={W} y2={y} stroke="#E3E3DC" strokeWidth="1" />
+              <text x={26} y={y + 3} textAnchor="end" fontSize="9" fill="#54635C">
+                {fmtTick(v)}
+              </text>
+            </g>
+          );
+        })}
+
         {points.map((p, i) => {
-          const barH = p.value > 0 ? Math.max((p.value / max) * 86, 3) : 0;
-          const x = i * 44 + 4;
+          const barH = p.value > 0 ? Math.max((p.value / max) * (baseY - chartTop), 3) : 0;
+          const x = 34 + i * slot + (slot - barW) / 2;
+          const cx = x + barW / 2;
           return (
             <g key={i}>
               <title>{p.caption}</title>
               {barH > 0 && (
-                <rect x={x} y={108 - barH} width={32} height={barH} fill="#1C5D4E" />
+                <rect
+                  x={x}
+                  y={baseY - barH}
+                  width={barW}
+                  height={barH}
+                  fill={p.isToday ? "#A65B12" : "#1C5D4E"}
+                />
               )}
               {barH === 0 && (
-                <rect x={x} y={107.5} width={32} height={1} fill="#E3E3DC" />
+                <rect x={x} y={baseY - 1} width={barW} height={1} fill="#E3E3DC" />
               )}
               {p.showValue && (
                 <text
-                  x={x + 16}
-                  y={Math.max(108 - barH - 5, 10)}
+                  x={cx}
+                  y={Math.max(baseY - barH - 5, 10)}
                   textAnchor="middle"
                   fontSize="9"
                   fill="#16211C"
                 >
-                  {p.value >= 1000
-                    ? `${(p.value / 1000).toFixed(1)}k`
-                    : p.value.toFixed(p.value < 10 ? 1 : 0)}
+                  {fmtTick(p.value)}
                 </text>
               )}
-              <text x={x + 16} y={126} textAnchor="middle" fontSize="10" fill="#16211C">
+              <text
+                x={cx}
+                y={134}
+                textAnchor="middle"
+                fontSize="10"
+                fontWeight={p.isToday ? 700 : 400}
+                fill={p.isToday ? "#A65B12" : "#16211C"}
+              >
                 {p.label}
               </text>
             </g>
           );
         })}
-        <line x1={0} y1={108.5} x2={W} y2={108.5} stroke="#E3E3DC" />
+        <line x1={30} y1={baseY + 0.5} x2={W} y2={baseY + 0.5} stroke="#16211C" strokeWidth="1" />
       </svg>
     </div>
   );
