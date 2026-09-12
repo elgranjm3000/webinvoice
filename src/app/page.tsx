@@ -274,8 +274,8 @@ function BarChart({
           const y = baseY - (v / max) * (baseY - chartTop);
           return (
             <g key={i}>
-              <line x1={30} y1={y} x2={W} y2={y} stroke="#E3E3DC" strokeWidth="1" />
-              <text x={26} y={y + 3} textAnchor="end" fontSize="9" fill="#54635C">
+              <line x1={30} y1={y} x2={W} y2={y} stroke="#E2E8F0" strokeWidth="1" />
+              <text x={26} y={y + 3} textAnchor="end" fontSize="9" fill="#57606A">
                 {fmtTick(v)}
               </text>
             </g>
@@ -295,11 +295,11 @@ function BarChart({
                   y={baseY - barH}
                   width={barW}
                   height={barH}
-                  fill={p.isToday ? "#A65B12" : "#1C5D4E"}
+                  fill={p.isToday ? "#D97706" : "#4F46E5"}
                 />
               )}
               {barH === 0 && (
-                <rect x={x} y={baseY - 1} width={barW} height={1} fill="#E3E3DC" />
+                <rect x={x} y={baseY - 1} width={barW} height={1} fill="#E2E8F0" />
               )}
               {p.showValue && (
                 <text
@@ -307,7 +307,7 @@ function BarChart({
                   y={Math.max(baseY - barH - 5, 10)}
                   textAnchor="middle"
                   fontSize="9"
-                  fill="#16211C"
+                  fill="#0D1117"
                 >
                   {fmtTick(p.value)}
                 </text>
@@ -318,14 +318,14 @@ function BarChart({
                 textAnchor="middle"
                 fontSize="10"
                 fontWeight={p.isToday ? 700 : 400}
-                fill={p.isToday ? "#A65B12" : "#16211C"}
+                fill={p.isToday ? "#D97706" : "#0D1117"}
               >
                 {p.label}
               </text>
             </g>
           );
         })}
-        <line x1={30} y1={baseY + 0.5} x2={W} y2={baseY + 0.5} stroke="#16211C" strokeWidth="1" />
+        <line x1={30} y1={baseY + 0.5} x2={W} y2={baseY + 0.5} stroke="#0D1117" strokeWidth="1" />
       </svg>
     </div>
   );

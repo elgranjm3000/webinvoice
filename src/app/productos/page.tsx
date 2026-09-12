@@ -62,7 +62,7 @@ export default async function Productos({
   const editing = edit ? rows.find((r) => r.id === edit) ?? null : null;
 
   const inp =
-    "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+    "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
   return (
     <>
@@ -144,7 +144,7 @@ export default async function Productos({
                   type="checkbox"
                   name="applies_vat"
                   defaultChecked={editing?.applies_vat ?? true}
-                  className="h-4 w-4 accent-[#1C5D4E]"
+                  className="h-4 w-4 accent-[#0D1117]"
                 />
                 Aplica
               </span>
@@ -166,7 +166,7 @@ export default async function Productos({
                 type="checkbox"
                 name="is_service"
                 defaultChecked={editing?.is_service ?? false}
-                className="h-4 w-4 accent-[#1C5D4E]"
+                className="h-4 w-4 accent-[#0D1117]"
               />
               Es servicio
             </label>
@@ -175,7 +175,7 @@ export default async function Productos({
                 type="checkbox"
                 name="is_active"
                 defaultChecked={editing?.is_active ?? true}
-                className="h-4 w-4 accent-[#1C5D4E]"
+                className="h-4 w-4 accent-[#0D1117]"
               />
               Activo
             </label>
@@ -184,7 +184,7 @@ export default async function Productos({
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             {editing ? "Guardar cambios" : "Guardar producto"}
           </button>

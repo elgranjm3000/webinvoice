@@ -59,7 +59,7 @@ export default async function Clientes({
   const rows = (data ?? []) as Customer[];
 
   const inp =
-    "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+    "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
   return (
     <>
@@ -123,14 +123,14 @@ export default async function Clientes({
             <input name="email" type="email" defaultValue={editing?.email ?? ""} className={`mt-1.5 ${inp}`} />
           </label>
           <label className="flex items-center gap-2 text-[13px] text-tinta-suave sm:col-span-2">
-            <input type="checkbox" name="is_special_taxpayer" defaultChecked={editing?.is_special_taxpayer ?? false} className="h-4 w-4 accent-[#1C5D4E]" />
+            <input type="checkbox" name="is_special_taxpayer" defaultChecked={editing?.is_special_taxpayer ?? false} className="h-4 w-4 accent-[#0D1117]" />
             Contribuyente especial
           </label>
         </div>
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             {editing ? "Guardar cambios" : "Guardar cliente"}
           </button>

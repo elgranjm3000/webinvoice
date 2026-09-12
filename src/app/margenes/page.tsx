@@ -155,7 +155,7 @@ export default async function Margenes({
                 name="q"
                 defaultValue={q ?? ""}
                 placeholder="Nombre o código…"
-                className="mt-1.5 block w-64 rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+                className="mt-1.5 block w-64 border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
               />
             </label>
             <button
@@ -190,7 +190,7 @@ export default async function Margenes({
                       ? "text-rojo font-semibold"
                       : pct < 15
                         ? "text-ambar font-medium"
-                        : "text-verde font-medium";
+                        : "text-esmeralda font-medium";
                 return (
                   <tr key={f.p.id} className="border-b border-regla">
                     <td className="py-3 pr-4">

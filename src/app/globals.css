@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
+/* Sistema "Tinta y Papel" (Stitch): tinta sobre papel, acento índigo fiscal */
 @theme {
-  --color-papel: #fafaf7;
-  --color-papel-2: #f2f2ec;
-  --color-tinta: #16211c;
-  --color-tinta-suave: #54635c;
-  --color-verde: #1c5d4e;
-  --color-verde-claro: #e7efec;
-  --color-ambar: #a65b12;
-  --color-regla: #e3e3dc;
-  --color-rojo: #a03123;
-  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --color-papel: #f8f9fa;
+  --color-papel-2: #eff2f6;
+  --color-tinta: #0d1117;
+  --color-tinta-suave: #57606a;
+  --color-verde: #4f46e5;        /* índigo fiscal: acento interactivo */
+  --color-verde-claro: #e0e7ff;  /* halo de foco */
+  --color-esmeralda: #10b981;    /* dinero positivo / pagado */
+  --color-ambar: #d97706;        /* pendiente / colchón corto */
+  --color-regla: #e2e8f0;
+  --color-rojo: #dc2626;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 html {
@@ -19,14 +22,34 @@ html {
 
 body {
   color: var(--color-tinta);
-  font-family: var(--font-sans);
+  font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Números tabulares en toda cifra monetaria o de cantidad */
+/* Números tabulares en toda cifra monetaria o de cantidad: JetBrains Mono */
 .num {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
   text-align: right;
+  letter-spacing: -0.01em;
+}
+
+/* Geometría "suavemente arquitectónica": 4px controles, 8px tarjetas,
+   12px modales (los del código antiguo se neutralizan aquí) */
+input,
+select,
+textarea,
+button {
+  border-radius: 4px;
+}
+.card {
+  border-radius: 8px;
+}
+.card-lift {
+  border-radius: 8px;
+}
+.modal-card {
+  border-radius: 12px;
 }
 
 ::selection {

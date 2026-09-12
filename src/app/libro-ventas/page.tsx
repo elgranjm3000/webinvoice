@@ -117,7 +117,7 @@ export default async function LibroVentas({
             type="month"
             name="mes"
             defaultValue={mes}
-            className="num mt-1.5 block rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+            className="num mt-1.5 block border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
           />
         </label>
         <button

@@ -41,7 +41,7 @@ export default async function Tasa({
   const rows = (data ?? []) as Rate[];
 
   const inp =
-    "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+    "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
   return (
     <>
@@ -97,7 +97,7 @@ export default async function Tasa({
         </div>
         <button
           type="submit"
-          className="mt-6 bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+          className="mt-6 bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
         >
           Guardar tasa
         </button>

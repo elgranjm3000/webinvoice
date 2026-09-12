@@ -8,7 +8,7 @@ import { emitCreditNote, emitDebitNote } from "../actions";
 import { fmtBs, fmtDate, fmtQty, fmtUsd } from "@/lib/format";
 
 const inp =
-  "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+  "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
 export default async function NuevaNota({
   searchParams,
@@ -126,7 +126,7 @@ export default async function NuevaNota({
           </div>
           <button
             type="submit"
-            className="mt-6 bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="mt-6 bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             Continuar
           </button>
@@ -268,7 +268,7 @@ export default async function NuevaNota({
                         max={available}
                         step="any"
                         defaultValue="0"
-                        className="num w-20 rounded-none border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
+                        className="num w-20 border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
                       />
                     ) : (
                       <span className="text-tinta-suave">—</span>
@@ -288,7 +288,7 @@ export default async function NuevaNota({
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             Emitir nota de {tipo === "debito" ? "débito" : "crédito"}
           </button>

@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Shell } from "@/components/Shell";
 
-const archivo = Archivo({
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-hanken",
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
 });
 
 export const metadata: Metadata = {
@@ -18,7 +23,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es-VE">
-      <body className={`${archivo.variable} antialiased`}>
+      <body className={`${hanken.variable} ${jetbrains.variable} antialiased`}>
         <Shell>{children}</Shell>
       </body>
     </html>

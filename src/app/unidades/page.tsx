@@ -39,7 +39,7 @@ export default async function Unidades({
   const editing = edit ? rows.find((r) => r.id === edit) ?? null : null;
 
   const inp =
-    "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+    "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
   return (
     <>
@@ -71,7 +71,6 @@ export default async function Unidades({
       >
       <form action={editing ? updateUnit : createUnit}>
         {editing && <input type="hidden" name="id" value={editing.id} />}
-        {editing && <input type="hidden" name="id" value={editing.id} />}
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block text-[13px] text-tinta-suave">
             Código
@@ -100,7 +99,7 @@ export default async function Unidades({
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             {editing ? "Guardar cambios" : "Guardar unidad"}
           </button>

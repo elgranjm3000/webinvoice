@@ -83,7 +83,7 @@ export default async function Facturas({
         action={
           <a
             href="/facturas/nueva"
-            className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white hover:opacity-90"
+            className="bg-tinta px-5 py-2.5 text-[14px] font-medium text-white hover:opacity-90"
           >
             Nueva factura
           </a>

@@ -75,7 +75,7 @@ export default async function Notas({
         action={
           <Link
             href="/notas/nueva"
-            className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-5 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             Nueva nota
           </Link>

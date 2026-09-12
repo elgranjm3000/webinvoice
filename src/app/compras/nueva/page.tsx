@@ -8,7 +8,7 @@ import { registerPurchase } from "../actions";
 import { fmtUsd } from "@/lib/format";
 
 const inp =
-  "w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+  "w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
 export default async function NuevaCompra({
   searchParams,
@@ -95,7 +95,7 @@ export default async function NuevaCompra({
             </div>
             <button
               type="submit"
-              className="mt-6 bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+              className="mt-6 bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
             >
               Continuar
             </button>
@@ -217,7 +217,7 @@ export default async function NuevaCompra({
                     step="any"
                     defaultValue="0"
                     aria-label={`Cantidad de ${p.description}`}
-                    className="num w-20 rounded-none border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
+                    className="num w-20 border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
                   />
                 </td>
                 <td className="num py-3 pr-4 text-tinta-suave">{fmtUsd(p.price_usd)}</td>
@@ -229,7 +229,7 @@ export default async function NuevaCompra({
                     step="0.01"
                     placeholder="0.00"
                     aria-label={`Costo de compra de ${p.description}`}
-                    className="num w-24 rounded-none border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
+                    className="num w-24 border border-regla px-2 py-1.5 text-right text-[14px] focus:border-verde focus:outline-none"
                   />
                 </td>
               </tr>
@@ -251,7 +251,7 @@ export default async function NuevaCompra({
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
+            className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90"
           >
             Registrar compra
           </button>

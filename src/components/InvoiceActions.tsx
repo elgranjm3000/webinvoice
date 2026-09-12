@@ -80,7 +80,7 @@ export function RetentionForm({
   const [concept, setConcept] = useState("");
 
   const inputCls =
-    "mt-1.5 w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
+    "mt-1.5 w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
   const submit = () => {
     setError(null);
@@ -164,7 +164,7 @@ export function RetentionForm({
           type="button"
           onClick={submit}
           disabled={pending || !voucher || Number(base) <= 0}
-          className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? "Registrando…" : "Registrar retención"}
         </button>

@@ -28,7 +28,7 @@ export function TableSearch({
           defaultValue={q ?? ""}
           placeholder={placeholder}
           aria-label={placeholder}
-          className="min-w-0 max-w-sm flex-1 rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+          className="min-w-0 max-w-sm flex-1 border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
         />
         <button
           type="submit"

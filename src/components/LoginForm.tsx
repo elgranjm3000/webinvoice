@@ -1,7 +1,7 @@
 import { loginAction } from "@/app/login/actions";
 
 const inputCls =
-  "mt-1.5 w-full rounded-none border border-regla bg-white px-3.5 py-2.5 text-[15px] text-tinta placeholder:text-tinta-suave/50 focus:border-verde focus:outline-none focus:ring-1 focus:ring-verde";
+  "mt-1.5 w-full border border-regla bg-white px-3.5 py-2.5 text-[15px] text-tinta placeholder:text-tinta-suave/50 focus:border-verde focus:outline-none focus:ring-1 focus:ring-verde";
 
 /**
  * Formulario de acceso que se envía directo al servidor (server action):
@@ -50,7 +50,7 @@ export function LoginForm({ error }: { error?: string }) {
 
         <button
           type="submit"
-          className="mt-6 min-h-[46px] w-full bg-verde px-6 py-2.5 text-[15px] font-medium text-white transition-colors hover:bg-[#174e41] active:bg-[#123f35]"
+          className="mt-6 min-h-[46px] w-full bg-tinta px-6 py-2.5 text-[15px] font-medium text-white transition-colors hover:bg-[#161b22] active:bg-[#30363d]"
         >
           Iniciar sesión
         </button>

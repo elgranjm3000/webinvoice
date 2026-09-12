@@ -68,7 +68,7 @@ export default async function Kardex({
           <select
             name="producto"
             defaultValue={producto ?? ""}
-            className="mt-1.5 w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+            className="mt-1.5 w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
           >
             <option value="todos">Todos los productos</option>
             {(products ?? []).map((p) => (

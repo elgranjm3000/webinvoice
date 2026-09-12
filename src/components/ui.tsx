@@ -95,7 +95,7 @@ export function Sparkline({
       <polyline
         points={pts.join(" ")}
         fill="none"
-        stroke="#1C5D4E"
+        stroke="#4F46E5"
         strokeWidth="1.5"
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -104,7 +104,7 @@ export function Sparkline({
         cx={width}
         cy={height - 3 - ((values[values.length - 1] - min) / span) * (height - 6)}
         r="2.5"
-        fill="#1C5D4E"
+        fill="#4F46E5"
       />
     </svg>
   );
@@ -201,7 +201,7 @@ export function StatusBadge({ status }: { status: string | null }) {
   const s = status ?? "—";
   const tone =
     s === "fully_paid"
-      ? "text-verde"
+      ? "text-esmeralda font-semibold"
       : s === "voided"
         ? "text-rojo"
         : "text-ambar";

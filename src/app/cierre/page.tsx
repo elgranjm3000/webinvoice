@@ -121,7 +121,7 @@ export default async function Cierre({
             type="date"
             name="fecha"
             defaultValue={fecha}
-            className="num mt-1.5 block rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+            className="num mt-1.5 block border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
           />
         </label>
         <button
@@ -182,13 +182,13 @@ export default async function Cierre({
               <input
                 name="notas"
                 maxLength={300}
-                className="mt-1.5 w-full rounded-none border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
+                className="mt-1.5 w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none"
               />
             </label>
             <button
               type="submit"
               disabled={rows.length === 0}
-              className="bg-verde px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Cerrar caja del {fecha}
             </button>
