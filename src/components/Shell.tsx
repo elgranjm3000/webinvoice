@@ -34,6 +34,7 @@ const NAV: { group: string; items: { href: string; label: string }[] }[] = [
       { href: "/margenes", label: "Márgenes" },
       { href: "/kardex", label: "Kardex" },
       { href: "/tasa", label: "Tasa BCV" },
+      { href: "/accesos", label: "Registro de accesos" },
     ],
   },
 ];
