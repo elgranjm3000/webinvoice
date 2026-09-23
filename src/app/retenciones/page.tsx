@@ -73,7 +73,7 @@ export default async function Retenciones() {
       ) : (
         <table className="w-full text-[14px]">
           <thead>
-            <tr className="border-b border-tinta text-left text-[12px] text-tinta-suave">
+            <tr className="border-b border-regla text-left text-[12px] text-tinta-suave">
               <th className="py-2 pr-4 font-medium">Comprobante</th>
               <th className="py-2 pr-4 font-medium">Fecha</th>
               <th className="py-2 pr-4 font-medium">Tipo</th>

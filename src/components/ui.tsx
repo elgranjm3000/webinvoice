@@ -234,14 +234,15 @@ const STATUS_LABEL: Record<string, string> = {
 
 export function StatusBadge({ status }: { status: string | null }) {
   const s = status ?? "—";
+  // Píldora con fondo al 10% del color de estado y texto del mismo color.
   const tone =
     s === "fully_paid"
-      ? "text-esmeralda font-semibold"
+      ? "bg-esmeralda/10 text-esmeralda"
       : s === "voided"
-        ? "text-rojo"
-        : "text-ambar";
+        ? "bg-rojo/10 text-rojo"
+        : "bg-ambar/10 text-ambar";
   return (
-    <span className={`text-[13px] ${tone}`}>
+    <span className={`inline-block rounded-full px-2.5 py-0.5 text-[12px] font-medium ${tone}`}>
       {STATUS_LABEL[s] ?? s}
     </span>
   );

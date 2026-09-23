@@ -137,7 +137,7 @@ export default async function LibroVentas({
         <>
           <table className="w-full text-[13px]">
             <thead>
-              <tr className="border-b border-tinta text-left text-[11px] text-tinta-suave">
+              <tr className="border-b border-regla text-left text-[11px] text-tinta-suave">
                 <th className="py-2 pr-3 font-medium">Fecha</th>
                 <th className="py-2 pr-3 font-medium">Documento</th>
                 <th className="py-2 pr-3 font-medium">RIF</th>
