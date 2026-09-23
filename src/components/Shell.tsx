@@ -67,11 +67,23 @@ const NAV: { group: string; items: NavItem[] }[] = [
   },
 ];
 
+const ITEM_USUARIOS: NavItem = { href: "/usuarios", label: "Usuarios y roles", icon: Users };
+
 const isActive = (href: string, pathname: string) =>
   href === "/" ? pathname === "/" : pathname.startsWith(href);
 
 /** Riel de escritorio: iconos solos; se expande al pasar el cursor. */
-function Rail({ pathname }: { pathname: string }) {
+function Rail({
+  pathname,
+  modulos,
+  esAdmin,
+}: {
+  pathname: string;
+  modulos: string[] | null;
+  esAdmin: boolean;
+}) {
+  const permitido = (href: string) =>
+    esAdmin || modulos === null || modulos.includes(href);
   const router = useRouter();
   return (
     <aside className="group/rail sticky top-0 hidden h-screen shrink-0 flex-col overflow-hidden border-r border-regla bg-white transition-[width] duration-200 hover:w-60 w-[68px] lg:flex">
@@ -99,7 +111,12 @@ function Rail({ pathname }: { pathname: string }) {
               {section.group}
             </p>
             <ul className="px-2 group-hover/rail:px-3">
-              {section.items.map((item) => {
+              {(section.group === "Sistema" && esAdmin
+                ? [...section.items, ITEM_USUARIOS]
+                : section.items
+              )
+                .filter((i) => permitido(i.href))
+                .map((item) => {
                 const active = isActive(item.href, pathname);
                 const Icon = item.icon;
                 return (
@@ -153,7 +170,19 @@ function Rail({ pathname }: { pathname: string }) {
 }
 
 /** Menú de texto para móvil: grupos plegables, sin iconos. */
-function MobileNav({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+function MobileNav({
+  pathname,
+  onNavigate,
+  modulos,
+  esAdmin,
+}: {
+  pathname: string;
+  onNavigate?: () => void;
+  modulos: string[] | null;
+  esAdmin: boolean;
+}) {
+  const permitido = (href: string) =>
+    esAdmin || modulos === null || modulos.includes(href);
   return (
     <nav aria-label="Secciones del sistema" className="divide-y divide-regla/70">
       {NAV.map((section) => {
@@ -168,7 +197,12 @@ function MobileNav({ pathname, onNavigate }: { pathname: string; onNavigate?: ()
               />
             </summary>
             <ul className="pb-1">
-              {section.items.map((item) => {
+              {(section.group === "Sistema" && esAdmin
+                ? [...section.items, ITEM_USUARIOS]
+                : section.items
+              )
+                .filter((i) => permitido(i.href))
+                .map((item) => {
                 const active = isActive(item.href, pathname);
                 return (
                   <li key={item.href}>
@@ -199,7 +233,16 @@ function MobileNav({ pathname, onNavigate }: { pathname: string; onNavigate?: ()
   );
 }
 
-export function Shell({ children }: { children: React.ReactNode }) {
+export function Shell({
+  children,
+  modulos = null,
+  esAdmin = false,
+}: {
+  children: React.ReactNode;
+  /** Prefijos permitidos; null = todo permitido. */
+  modulos: string[] | null;
+  esAdmin: boolean;
+}) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -222,7 +265,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
             />
           </summary>
           <div className="max-h-[75vh] overflow-y-auto border-t border-regla pt-1">
-            <MobileNav pathname={pathname} />
+            <MobileNav pathname={pathname} modulos={modulos} esAdmin={esAdmin} />
             <div className="mt-2 border-t border-regla/70 pb-4 pt-2">
               <button
                 type="button"
@@ -244,7 +287,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Escritorio: riel de iconos que se expande al pasar el cursor */}
-      <Rail pathname={pathname} />
+      <Rail pathname={pathname} modulos={modulos} esAdmin={esAdmin} />
 
       <main className="min-w-0 flex-1 px-4 py-6 sm:px-8 lg:px-10 lg:py-8">
         {children}

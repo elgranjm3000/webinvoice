@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Shell } from "@/components/Shell";
+import { permisos } from "@/lib/permisos";
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
@@ -18,13 +19,14 @@ export const metadata: Metadata = {
   description: "Facturación fiscal venezolana y control de almacenes",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const accesos = await permisos();
   return (
     <html lang="es-VE">
       <body className={`${hanken.variable} ${jetbrains.variable} antialiased`}>
-        <Shell>{children}</Shell>
+        <Shell modulos={accesos.modulos} esAdmin={accesos.esAdmin}>{children}</Shell>
       </body>
     </html>
   );
