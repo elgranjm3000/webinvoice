@@ -173,7 +173,7 @@ export function Modal({
         aria-label="Cerrar"
         className="fixed inset-0 cursor-default bg-tinta/60"
       />
-      <div className="modal-card card relative mx-auto my-[7vh] w-[min(92vw,34rem)] p-6 shadow-[0_24px_64px_rgba(22,33,28,0.35)]">
+      <div className="modal-card card relative mx-auto my-[7vh] w-[min(92vw,34rem)] p-6 shadow-[0_16px_32px_-8px_rgba(13,17,23,0.12),0_4px_8px_-2px_rgba(13,17,23,0.06)]">
         <div className="mb-5 flex items-start justify-between gap-4 border-b border-regla pb-4">
           <h2 className="text-[16px] font-semibold tracking-tight">{title}</h2>
           <a
