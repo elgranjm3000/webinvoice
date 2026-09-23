@@ -274,8 +274,8 @@ function BarChart({
           const y = baseY - (v / max) * (baseY - chartTop);
           return (
             <g key={i}>
-              <line x1={30} y1={y} x2={W} y2={y} stroke="#E2E8F0" strokeWidth="1" />
-              <text x={26} y={y + 3} textAnchor="end" fontSize="9" fill="#57606A">
+              <line x1={30} y1={y} x2={W} y2={y} stroke="#E5E7EB" strokeWidth="1" />
+              <text x={26} y={y + 3} textAnchor="end" fontSize="9" fill="#6B7280">
                 {fmtTick(v)}
               </text>
             </g>
@@ -295,11 +295,11 @@ function BarChart({
                   y={baseY - barH}
                   width={barW}
                   height={barH}
-                  fill={p.isToday ? "#D97706" : "#4F46E5"}
+                  fill={p.isToday ? "#D97706" : "#6366F1"}
                 />
               )}
               {barH === 0 && (
-                <rect x={x} y={baseY - 1} width={barW} height={1} fill="#E2E8F0" />
+                <rect x={x} y={baseY - 1} width={barW} height={1} fill="#E5E7EB" />
               )}
               {p.showValue && (
                 <text
@@ -307,7 +307,7 @@ function BarChart({
                   y={Math.max(baseY - barH - 5, 10)}
                   textAnchor="middle"
                   fontSize="9"
-                  fill="#0D1117"
+                  fill="#111827"
                 >
                   {fmtTick(p.value)}
                 </text>

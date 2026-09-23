@@ -95,7 +95,7 @@ export function Sparkline({
       <polyline
         points={pts.join(" ")}
         fill="none"
-        stroke="#4F46E5"
+        stroke="#6366F1"
         strokeWidth="1.5"
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -104,7 +104,7 @@ export function Sparkline({
         cx={width}
         cy={height - 3 - ((values[values.length - 1] - min) / span) * (height - 6)}
         r="2.5"
-        fill="#4F46E5"
+        fill="#6366F1"
       />
     </svg>
   );

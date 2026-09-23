@@ -149,7 +149,7 @@ export default async function Productos({
                   type="checkbox"
                   name="applies_vat"
                   defaultChecked={editing?.applies_vat ?? true}
-                  className="h-4 w-4 accent-[#0D1117]"
+                  className="h-4 w-4 accent-[#0F766E]"
                 />
                 Aplica
               </span>
@@ -171,7 +171,7 @@ export default async function Productos({
                 type="checkbox"
                 name="is_service"
                 defaultChecked={editing?.is_service ?? false}
-                className="h-4 w-4 accent-[#0D1117]"
+                className="h-4 w-4 accent-[#0F766E]"
               />
               Es servicio
             </label>
@@ -180,7 +180,7 @@ export default async function Productos({
                 type="checkbox"
                 name="is_active"
                 defaultChecked={editing?.is_active ?? true}
-                className="h-4 w-4 accent-[#0D1117]"
+                className="h-4 w-4 accent-[#0F766E]"
               />
               Activo
             </label>

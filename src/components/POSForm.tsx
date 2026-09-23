@@ -407,7 +407,7 @@ export function POSForm({
               type="button"
               onClick={emit}
               disabled={pending || lines.length === 0 || !customerId || totals.total === 0}
-              className="mt-4 min-h-[48px] w-full bg-tinta px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#161b22] active:bg-[#30363d] disabled:cursor-not-allowed disabled:bg-tinta-suave/30 disabled:text-papel/60"
+              className="mt-4 min-h-[48px] w-full bg-tinta px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1f2937] active:bg-[#374151] disabled:cursor-not-allowed disabled:bg-tinta-suave/30 disabled:text-papel/60"
             >
               {pending ? "Emitiendo…" : "Emitir factura"}
             </button>

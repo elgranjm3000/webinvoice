@@ -107,7 +107,7 @@ export default async function Empresa({
               type="checkbox"
               name="multimoneda"
               defaultChecked={cfg.secondary_currency != null}
-              className="mt-0.5 h-4 w-4 accent-[#0D1117]"
+              className="mt-0.5 h-4 w-4 accent-[#0F766E]"
             />
             <span>
               <span className="font-medium">Manejo multimoneda</span>
@@ -129,7 +129,7 @@ export default async function Empresa({
 
         <button
           type="submit"
-          className="mt-6 bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#161b22]"
+          className="mt-6 bg-tinta px-6 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#1f2937]"
         >
           Guardar configuración
         </button>

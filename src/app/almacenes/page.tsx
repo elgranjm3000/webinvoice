@@ -133,7 +133,7 @@ export default async function Almacenes({
                 type="checkbox"
                 name="is_main"
                 defaultChecked={editing?.is_main ?? false}
-                className="h-4 w-4 accent-[#0D1117]"
+                className="h-4 w-4 accent-[#0F766E]"
               />
               Almacén principal
             </label>
@@ -142,7 +142,7 @@ export default async function Almacenes({
                 type="checkbox"
                 name="is_active"
                 defaultChecked={editing?.is_active ?? true}
-                className="h-4 w-4 accent-[#0D1117]"
+                className="h-4 w-4 accent-[#0F766E]"
               />
               Activo
             </label>

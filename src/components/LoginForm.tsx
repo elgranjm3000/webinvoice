@@ -50,7 +50,7 @@ export function LoginForm({ error }: { error?: string }) {
 
         <button
           type="submit"
-          className="mt-6 min-h-[46px] w-full bg-tinta px-6 py-2.5 text-[15px] font-medium text-white transition-colors hover:bg-[#161b22] active:bg-[#30363d]"
+          className="mt-6 min-h-[46px] w-full bg-tinta px-6 py-2.5 text-[15px] font-medium text-white transition-colors hover:bg-[#1f2937] active:bg-[#374151]"
         >
           Iniciar sesión
         </button>

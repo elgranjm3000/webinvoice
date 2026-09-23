@@ -122,7 +122,7 @@ export default async function Proveedores({
             <input name="email" type="email" defaultValue={editing?.email ?? ""} className={`mt-1.5 ${inp}`} />
           </label>
           <label className="flex items-center gap-2 text-[13px] text-tinta-suave sm:col-span-2">
-            <input type="checkbox" name="is_special_taxpayer" defaultChecked={editing?.is_special_taxpayer ?? false} className="h-4 w-4 accent-[#0D1117]" />
+            <input type="checkbox" name="is_special_taxpayer" defaultChecked={editing?.is_special_taxpayer ?? false} className="h-4 w-4 accent-[#0F766E]" />
             Contribuyente especial
           </label>
         </div>
