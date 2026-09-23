@@ -2,8 +2,8 @@ import Link from "next/link";
 import { LoginForm } from "@/components/LoginForm";
 
 /**
- * Login según la referencia compartida: fondo gris suave, tarjeta
- * blanca centrada con banda oscura de marca arriba y botón teal.
+ * Login minimalista: tarjeta blanca de máx. 400px centrada sobre
+ * gris frío, logotipo arriba en el centro, sin adornos.
  */
 export default async function Login({
   searchParams,
@@ -13,48 +13,45 @@ export default async function Login({
   const { error, ok } = await searchParams;
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-papel px-4 py-10">
-      <div className="w-full max-w-[420px]">
-        {/* Tarjeta: banda oscura de marca + formulario en blanco */}
-        <div className="card-lift overflow-hidden">
-          {/* Banda oscura de marca */}
-          <div className="bg-tinta px-8 pb-7 pt-8 text-papel">
-            <p className="text-[24px] font-semibold leading-none tracking-tight">
-              Facturación
-              <span className="num ml-2 align-top text-[15px] font-medium text-verde-claro">
-                2026
-              </span>
-            </p>
-            <span aria-hidden className="mt-4 block h-px w-full bg-papel/30" />
-            <span aria-hidden className="mt-px block h-[3px] w-10 bg-verde-claro" />
-            <p className="mt-4 text-[13px] leading-relaxed text-papel/70">
-              Facturación fiscal y control de almacenes
-            </p>
-          </div>
+      {/* Logotipo centrado, reducido */}
+      <div className="mb-8 text-center">
+        <p className="text-[20px] font-semibold leading-none tracking-tight text-tinta">
+          Facturación
+          <span className="num ml-1.5 text-[14px] font-medium text-verde">26</span>
+        </p>
+        <span aria-hidden className="mx-auto mt-3 block h-px w-16 bg-tinta/60" />
+        <span aria-hidden className="mx-auto mt-px block h-[2.5px] w-8 bg-verde" />
+      </div>
 
-          {/* Formulario */}
-          <div className="bg-white px-8 py-8">
-            {ok && (
-              <p className="mb-5 border-l-2 border-esmeralda px-4 py-3 text-[13.5px] leading-relaxed text-esmeralda">
-                {ok}
-              </p>
-            )}
+      <div className="w-full max-w-[400px] rounded-lg border border-regla bg-white p-8">
+        <h1 className="text-[18px] font-semibold tracking-tight text-tinta">
+          Iniciar sesión
+        </h1>
+        <p className="mt-1 text-[13px] text-tinta-suave">
+          Accede con tu cuenta para continuar.
+        </p>
 
-            <LoginForm error={error} />
+        {ok && (
+          <p className="mt-5 rounded-md bg-esmeralda/10 px-4 py-3 text-[13px] leading-relaxed text-esmeralda">
+            {ok}
+          </p>
+        )}
 
-            <p className="mt-6 text-center text-[13px] text-tinta-suave">
-              ¿Primera vez?{" "}
-              <Link href="/registro" className="font-medium text-verde underline underline-offset-2">
-                Registra tu empresa
-              </Link>
-            </p>
-          </div>
+        <div className="mt-6">
+          <LoginForm error={error} />
         </div>
 
-        <p className="mt-6 text-center text-[11.5px] leading-relaxed text-tinta-suave/80">
-          Sistema multi-país: cada empresa factura en su moneda con los
-          requisitos fiscales de su país.
+        <p className="mt-7 border-t border-regla pt-4 text-center text-[13px] text-tinta-suave">
+          ¿Primera vez?{" "}
+          <Link href="/registro" className="font-medium text-verde hover:text-indigo">
+            Registra tu empresa
+          </Link>
         </p>
       </div>
+
+      <p className="mt-6 max-w-[400px] text-center text-[11.5px] leading-relaxed text-tinta-suave/80">
+        Sistema de facturación multi-país con requisitos fiscales locales.
+      </p>
     </main>
   );
 }
