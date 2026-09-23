@@ -10,40 +10,31 @@ const NAV: { group: string; items: { href: string; label: string }[] }[] = [
     items: [{ href: "/", label: "Panel" }],
   },
   {
-    group: "Ventas",
+    group: "Operación",
     items: [
       { href: "/facturas", label: "Facturas" },
       { href: "/notas", label: "Notas" },
+      { href: "/compras", label: "Compras" },
       { href: "/cobrar", label: "Por cobrar" },
       { href: "/retenciones", label: "Retenciones" },
       { href: "/cierre", label: "Cierre de caja" },
     ],
   },
   {
-    group: "Compras",
+    group: "Catálogo",
     items: [
-      { href: "/compras", label: "Compras" },
+      { href: "/clientes", label: "Clientes" },
       { href: "/proveedores", label: "Proveedores" },
-    ],
-  },
-  {
-    group: "Inventario",
-    items: [
       { href: "/productos", label: "Productos" },
       { href: "/almacenes", label: "Almacenes" },
       { href: "/kardex", label: "Kardex" },
     ],
   },
   {
-    group: "Reportes",
+    group: "Sistema",
     items: [
       { href: "/libro-ventas", label: "Libro de ventas" },
       { href: "/margenes", label: "Márgenes" },
-    ],
-  },
-  {
-    group: "Configuración",
-    items: [
       { href: "/empresa", label: "Mi empresa" },
       { href: "/unidades", label: "Unidades" },
       { href: "/tasa", label: "Tasa BCV" },

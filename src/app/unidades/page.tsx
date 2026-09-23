@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState, Modal } from "@/components/ui";
+import { PageHeader, EmptyState, RowMenu, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import { createUnit, updateUnit, deleteUnit } from "./actions";
 
@@ -132,20 +132,14 @@ export default async function Unidades({
                 <td className="num py-3 pr-4">{r.code}</td>
                 <td className="py-3 pr-4 font-medium">{r.name}</td>
                 <td className="py-3 pl-4 text-right">
-                  <div className="flex justify-end gap-3">
-                    <a
-                      href={`/unidades?edit=${r.id}`}
-                      className="text-[12px] text-tinta-suave underline-offset-2 hover:text-verde hover:underline"
-                    >
-                      Editar
-                    </a>
+                  <RowMenu editHref={`/unidades?edit=${r.id}`}>
                     <form action={deleteUnit}>
                       <input type="hidden" name="id" value={r.id} />
                       <input type="hidden" name="name" value={r.name} />
                       <input type="hidden" name="code" value={r.code} />
                       <DeleteButton name={r.name} />
                     </form>
-                  </div>
+                  </RowMenu>
                 </td>
               </tr>
             ))}

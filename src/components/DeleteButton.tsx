@@ -7,7 +7,7 @@ export function DeleteButton({ name }: { name: string }) {
       onClick={(e) => {
         if (!window.confirm(`¿Eliminar a «${name}»?`)) e.preventDefault();
       }}
-      className="text-[12px] text-tinta-suave underline-offset-2 hover:text-rojo hover:underline"
+      className="block w-full rounded-md px-3 py-2 text-left text-[13px] text-rojo transition-colors hover:bg-[#fef2f2]"
     >
       Eliminar
     </button>

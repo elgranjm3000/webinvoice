@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState, Modal } from "@/components/ui";
+import { PageHeader, EmptyState, RowMenu, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import { TableSearch } from "@/components/TableSearch";
 import { createSupplier, updateSupplier, deleteSupplier } from "./actions";
@@ -187,19 +187,13 @@ export default async function Proveedores({
                   )}
                 </td>
                 <td className="py-3 pl-4 text-right">
-                  <div className="flex justify-end gap-3">
-                  <a
-                    href={`/proveedores?edit=${r.id}`}
-                    className="text-[12px] text-tinta-suave underline-offset-2 hover:text-verde hover:underline"
-                  >
-                    Editar
-                  </a>
-                  <form action={deleteSupplier}>
+                  <RowMenu editHref={`/proveedores?edit=${r.id}`}>
+                    <form action={deleteSupplier}>
                     <input type="hidden" name="id" value={r.id} />
                     <input type="hidden" name="legal_name" value={r.legal_name} />
                     <DeleteButton name={r.legal_name} />
                   </form>
-                  </div>
+                  </RowMenu>
                 </td>
               </tr>
             ))}

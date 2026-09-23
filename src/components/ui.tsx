@@ -190,6 +190,41 @@ export function Modal({
   );
 }
 
+/**
+ * Menú de acciones por fila (kebab ⋮): consolida Editar/Eliminar en un
+ * solo control discreto. <details> nativo — funciona sin JavaScript.
+ */
+export function RowMenu({
+  editHref,
+  children,
+}: {
+  editHref: string;
+  /** Acciones destructivas (formularios de borrado). */
+  children?: React.ReactNode;
+}) {
+  return (
+    <details className="group/row relative inline-block text-left">
+      <summary
+        aria-label="Acciones de la fila"
+        className="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-md text-[16px] leading-none text-tinta-suave transition-colors hover:bg-papel-2 hover:text-tinta [&::-webkit-details-marker]:hidden"
+      >
+        ⋮
+      </summary>
+      <div className="card absolute right-0 top-10 z-20 w-36 p-1">
+        <a
+          href={editHref}
+          className="block rounded-md px-3 py-2 text-[13px] text-tinta transition-colors hover:bg-papel-2"
+        >
+          Editar
+        </a>
+        {children && (
+          <div className="mt-1 border-t border-regla pt-1">{children}</div>
+        )}
+      </div>
+    </details>
+  );
+}
+
 const STATUS_LABEL: Record<string, string> = {
   issued: "Emitida",
   partially_paid: "Abonada",

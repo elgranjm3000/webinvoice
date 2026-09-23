@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState, Modal } from "@/components/ui";
+import { PageHeader, EmptyState, Modal, RowMenu } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import {
   createWarehouse,
@@ -196,17 +196,13 @@ export default async function Almacenes({
                         <span className="text-rojo"> · {underMin} bajo mínimo</span>
                       )}
                     </p>
-                    <a
-                      href={`/almacenes?edit=${w.id}`}
-                      className="text-[12px] text-tinta-suave underline-offset-2 hover:text-verde hover:underline"
-                    >
-                      Editar
-                    </a>
-                    <form action={deleteWarehouse}>
-                      <input type="hidden" name="id" value={w.id} />
-                      <input type="hidden" name="name" value={w.name} />
-                      <DeleteButton name={w.name} />
-                    </form>
+                    <RowMenu editHref={`/almacenes?edit=${w.id}`}>
+                      <form action={deleteWarehouse}>
+                        <input type="hidden" name="id" value={w.id} />
+                        <input type="hidden" name="name" value={w.name} />
+                        <DeleteButton name={w.name} />
+                      </form>
+                    </RowMenu>
                   </div>
                 </div>
                 {items.length === 0 ? (

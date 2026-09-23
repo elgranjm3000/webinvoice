@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { supabaseServer } from "@/lib/supabase";
-import { PageHeader, EmptyState, Modal } from "@/components/ui";
+import { PageHeader, EmptyState, RowMenu, Modal } from "@/components/ui";
 import { DeleteButton } from "@/components/DeleteButton";
 import { TableSearch } from "@/components/TableSearch";
 import {
@@ -255,19 +255,13 @@ export default async function Productos({
                     : "Exento"}
                 </td>
                 <td className="py-3 pl-4 text-right">
-                  <div className="flex justify-end gap-3">
-                    <a
-                      href={`/productos?edit=${r.id}`}
-                      className="text-[12px] text-tinta-suave underline-offset-2 hover:text-verde hover:underline"
-                    >
-                      Editar
-                    </a>
+                  <RowMenu editHref={`/productos?edit=${r.id}`}>
                     <form action={deleteProduct}>
                       <input type="hidden" name="id" value={r.id} />
                       <input type="hidden" name="description" value={r.description} />
                       <DeleteButton name={r.description} />
                     </form>
-                  </div>
+                  </RowMenu>
                 </td>
               </tr>
             ))}
