@@ -70,7 +70,7 @@ export default async function Productos({
         title="Productos"
         subtitle="Catálogo de bienes y servicios"
         action={
-          <a href="/productos?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+          <a href="/productos?nuevo=1" className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#0d5f58]">
             Registrar producto
           </a>
         }

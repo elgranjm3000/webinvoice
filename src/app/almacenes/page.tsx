@@ -72,7 +72,7 @@ export default async function Almacenes({
         title="Almacenes"
         subtitle="Existencias por ubicación"
         action={
-          <a href="/almacenes?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+          <a href="/almacenes?nuevo=1" className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#0d5f58]">
             Registrar almacén
           </a>
         }

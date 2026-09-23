@@ -12,7 +12,7 @@ export function PageHeader({
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-regla pb-5">
       <div>
-        <h1 className="text-[28px] font-semibold leading-tight tracking-tight">
+        <h1 className="text-[24px] font-semibold leading-tight tracking-tight">
           {title}
         </h1>
         {subtitle && (

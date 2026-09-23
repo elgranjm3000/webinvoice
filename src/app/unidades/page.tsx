@@ -47,7 +47,7 @@ export default async function Unidades({
         title="Unidades"
         subtitle="Unidades de medida del catálogo de productos"
         action={
-          <a href="/unidades?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+          <a href="/unidades?nuevo=1" className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#0d5f58]">
             Registrar unidad
           </a>
         }

@@ -66,7 +66,7 @@ export default async function Proveedores({
         title="Proveedores"
         subtitle="Quiénes te venden — base del libro de compras"
         action={
-          <a href="/proveedores?nuevo=1" className="border border-tinta bg-white px-5 py-2.5 text-[14px] font-medium transition-colors hover:bg-papel-2">
+          <a href="/proveedores?nuevo=1" className="bg-verde px-5 py-2.5 text-[14px] font-medium text-white transition-colors hover:bg-[#0d5f58]">
             Registrar proveedor
           </a>
         }
