@@ -5,6 +5,7 @@ import { supabaseServer } from "@/lib/supabase";
 import { EmptyState } from "@/components/ui";
 import { PrintButton } from "@/components/PrintButton";
 import { fmtBs, fmtDate, fmtQty, fmtUsd } from "@/lib/format";
+import { companyLocale, money } from "@/lib/locale";
 
 const DOCTYPE_LABEL: Record<string, string> = {
   invoice: "Factura",
@@ -67,6 +68,9 @@ export default async function DocumentoImprimible({
     | { invoice_number: string; control_number: string }
     | null;
 
+  const cfg = companyLocale(company);
+  const esVE = cfg.country_code === "VE";
+  const subtotal = Number(inv.exempt_amount_usd ?? 0) + Number(inv.taxable_base_usd ?? 0);
   const tipo = DOCTYPE_LABEL[inv.document_type] ?? "Factura";
   const condicion =
     inv.status === "fully_paid" ? "Contado" : "Crédito";
@@ -97,7 +101,7 @@ export default async function DocumentoImprimible({
           <div className="text-[13px] leading-relaxed">
             <p className="text-[17px] font-semibold">{co?.legal_name}</p>
             {co?.trade_name && <p className="text-tinta-suave">{co.trade_name}</p>}
-            <p className="num">RIF: {co?.tax_id}</p>
+            <p className="num">{cfg.tax_id_label}: {co?.tax_id}</p>
             <p className="text-tinta-suave">{co?.fiscal_address}</p>
             {co?.phone && <p className="num text-tinta-suave">Telf.: {co.phone}</p>}
           </div>
@@ -106,9 +110,11 @@ export default async function DocumentoImprimible({
             <p className="num mt-2 text-[13px]">
               N° {inv.invoice_number}
             </p>
-            <p className="num text-[13px]">
-              N° de control {inv.control_number}
-            </p>
+            {esVE && (
+              <p className="num text-[13px]">
+                N° de control {inv.control_number}
+              </p>
+            )}
           </div>
         </div>
 
@@ -117,7 +123,7 @@ export default async function DocumentoImprimible({
           <div>
             <p className="font-medium">{cust?.legal_name}</p>
             <p className="num">
-              RIF: {cust?.id_type}-{cust?.tax_id}
+              {cfg.tax_id_label}: {cust?.id_type}-{cust?.tax_id}
             </p>
             <p className="text-tinta-suave">{cust?.fiscal_address}</p>
             {cust?.phone && <p className="num text-tinta-suave">Telf.: {cust.phone}</p>}
@@ -130,13 +136,16 @@ export default async function DocumentoImprimible({
             <p>
               <span className="text-tinta-suave">Condición de pago: </span>
               {condicion}
+              {condicion === "Crédito" && " — vence a los 30 días"}
             </p>
-            <p>
-              <span className="text-tinta-suave">Punto de emisión: </span>
-              <span className="num">
-                {ep ? `${ep.branch_code}-${ep.point_code}` : "—"}
-              </span>
-            </p>
+            {esVE && (
+              <p>
+                <span className="text-tinta-suave">Punto de emisión: </span>
+                <span className="num">
+                  {ep ? `${ep.branch_code}-${ep.point_code}` : "—"}
+                </span>
+              </p>
+            )}
             {affected && (
               <p>
                 <span className="text-tinta-suave">Factura afectada: </span>
@@ -145,9 +154,11 @@ export default async function DocumentoImprimible({
                 </span>
               </p>
             )}
-            <p className="num text-tinta-suave">
-              Tasa BCV aplicada: {fmtBs(Number(inv.bcv_rate))} / USD
-            </p>
+            {esVE && (
+              <p className="num text-tinta-suave">
+                Tasa BCV aplicada: {money(Number(inv.bcv_rate), cfg)} / USD
+              </p>
+            )}
           </div>
         </div>
 
@@ -193,27 +204,34 @@ export default async function DocumentoImprimible({
             <thead>
               <tr className="border-b border-tinta text-[11px] text-tinta-suave">
                 <th className="py-1.5 text-left font-medium">Concepto</th>
-                <th className="py-1.5 text-right font-medium">USD</th>
-                <th className="py-1.5 text-right font-medium">Bs.</th>
+                <th className="py-1.5 text-right font-medium">{cfg.currency_code}</th>
+                {esVE && <th className="py-1.5 text-right font-medium">Bs.</th>}
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-regla">
-                <td className="py-1.5 text-tinta-suave">Ventas exentas</td>
-                <td className="num py-1.5 text-right">{fmtUsd(inv.exempt_amount_usd)}</td>
-                <td className="num py-1.5 text-right">{fmtBs(inv.exempt_amount_ves)}</td>
+                <td className="py-1.5 text-tinta-suave">Subtotal</td>
+                <td className="num py-1.5 text-right">{money(subtotal, cfg)}</td>
+                {esVE && <td className="num py-1.5 text-right">—</td>}
+              </tr>
+              {Number(inv.exempt_amount_usd ?? 0) > 0 && (
+                <tr className="border-b border-regla">
+                  <td className="py-1.5 text-tinta-suave">Ventas exentas (incluidas en subtotal)</td>
+                  <td className="num py-1.5 text-right">{money(Number(inv.exempt_amount_usd), cfg)}</td>
+                  {esVE && <td className="num py-1.5 text-right">{fmtBs(inv.exempt_amount_ves)}</td>}
+                </tr>
+              )}
+              <tr className="border-b border-regla">
+                <td className="py-1.5 text-tinta-suave">Base gravable</td>
+                <td className="num py-1.5 text-right">{money(Number(inv.taxable_base_usd), cfg)}</td>
+                {esVE && <td className="num py-1.5 text-right">{fmtBs(inv.taxable_base_ves)}</td>}
               </tr>
               <tr className="border-b border-regla">
-                <td className="py-1.5 text-tinta-suave">Base imponible</td>
-                <td className="num py-1.5 text-right">{fmtUsd(inv.taxable_base_usd)}</td>
-                <td className="num py-1.5 text-right">{fmtBs(inv.taxable_base_ves)}</td>
+                <td className="py-1.5 text-tinta-suave">{cfg.tax_name}</td>
+                <td className="num py-1.5 text-right">{money(Number(inv.vat_amount_usd), cfg)}</td>
+                {esVE && <td className="num py-1.5 text-right">{fmtBs(inv.vat_amount_ves)}</td>}
               </tr>
-              <tr className="border-b border-regla">
-                <td className="py-1.5 text-tinta-suave">IVA</td>
-                <td className="num py-1.5 text-right">{fmtUsd(inv.vat_amount_usd)}</td>
-                <td className="num py-1.5 text-right">{fmtBs(inv.vat_amount_ves)}</td>
-              </tr>
-              {Number(inv.igtf_amount_ves ?? 0) > 0 && (
+              {esVE && Number(inv.igtf_amount_ves ?? 0) > 0 && (
                 <tr className="border-b border-regla">
                   <td className="py-1.5 text-tinta-suave">IGTF (3%)</td>
                   <td className="num py-1.5 text-right">—</td>
@@ -222,8 +240,8 @@ export default async function DocumentoImprimible({
               )}
               <tr className="border-t-2 border-tinta font-semibold">
                 <td className="py-2">Total</td>
-                <td className="num py-2 text-right">{fmtUsd(inv.total_usd)}</td>
-                <td className="num py-2 text-right">{fmtBs(inv.total_ves)}</td>
+                <td className="num py-2 text-right">{money(Number(inv.total_usd), cfg)}</td>
+                {esVE && <td className="num py-2 text-right">{fmtBs(inv.total_ves)}</td>}
               </tr>
             </tbody>
           </table>
@@ -238,13 +256,14 @@ export default async function DocumentoImprimible({
         {/* Pie del documento */}
         <div className="mt-10 flex flex-wrap items-end justify-between gap-6 border-t-2 border-tinta pt-3 text-[11px] text-tinta-suave">
           <p className="max-w-xs leading-relaxed">
-            Documento conforme a SENIAT. Los montos en bolívares se calculan con
-            la tasa BCV vigente a la fecha de emisión.
+            {esVE
+              ? "Documento conforme a SENIAT. Los montos en bolívares se calculan con la tasa BCV vigente a la fecha de emisión."
+              : `Documento de venta emitido en ${cfg.currency_code}. Conservar para fines contables.`}
           </p>
           <p className="num text-right">
             {co?.legal_name}
             <br />
-            RIF: {co?.tax_id}
+            {cfg.tax_id_label}: {co?.tax_id}
           </p>
         </div>
       </article>

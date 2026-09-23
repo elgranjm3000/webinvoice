@@ -20,6 +20,7 @@ const NAV: { group: string; items: { href: string; label: string }[] }[] = [
   {
     group: "Maestros",
     items: [
+      { href: "/empresa", label: "Mi empresa" },
       { href: "/clientes", label: "Clientes" },
       { href: "/proveedores", label: "Proveedores" },
       { href: "/productos", label: "Productos" },
