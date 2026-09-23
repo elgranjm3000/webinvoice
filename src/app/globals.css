@@ -44,10 +44,10 @@ button {
   border-radius: 4px;
 }
 .card {
-  border-radius: 8px;
+  border-radius: 12px;
 }
 .card-lift {
-  border-radius: 8px;
+  border-radius: 12px;
 }
 .modal-card {
   border-radius: 12px;
@@ -75,9 +75,9 @@ button:not(:disabled):active {
 .card {
   background: #fff;
   box-shadow:
-    0 0 0 1px rgba(22, 33, 28, 0.05),
-    0 1px 2px -1px rgba(22, 33, 28, 0.06),
-    0 2px 6px rgba(22, 33, 28, 0.03);
+    0 0 0 1px rgba(17, 24, 39, 0.04),
+    0 1px 2px -1px rgba(17, 24, 39, 0.05),
+    0 2px 8px rgba(17, 24, 39, 0.03);
 }
 
 /* Filas vivas: la tabla responde al cursor sin reglas por página */

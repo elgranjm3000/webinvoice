@@ -90,8 +90,8 @@ function NavGroup({
                 aria-current={active ? "page" : undefined}
                 className={`relative flex min-h-[36px] items-center py-2 pl-8 pr-5 text-[13px] leading-none transition-colors ${
                   active
-                    ? "bg-papel-2 font-semibold text-tinta"
-                    : "text-tinta-suave hover:text-tinta"
+                    ? "bg-verde-claro/40 font-semibold text-verde"
+                    : "text-tinta-suave hover:bg-papel-2/50 hover:text-tinta"
                 }`}
               >
                 <span
@@ -152,7 +152,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col lg:flex-row">
       {/* Móvil: barra superior con menú desplegable <details> (sin JavaScript) */}
-      <header className="sticky top-0 z-10 border-b border-regla bg-papel lg:hidden">
+      <header className="sticky top-0 z-10 border-b border-regla bg-white lg:hidden">
         <details className="group">
           <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between px-4 [&::-webkit-details-marker]:hidden">
             <Brand />
@@ -174,7 +174,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Escritorio: menú lateral fijo */}
-      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-regla bg-papel lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-regla bg-white lg:flex">
         <div className="pb-6 pt-7">
           <Brand />
         </div>
