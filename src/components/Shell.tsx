@@ -6,34 +6,46 @@ import { supabaseBrowser } from "@/lib/supabase-browser";
 
 const NAV: { group: string; items: { href: string; label: string }[] }[] = [
   {
-    group: "Operación",
+    group: "Inicio",
+    items: [{ href: "/", label: "Panel" }],
+  },
+  {
+    group: "Ventas",
     items: [
-      { href: "/", label: "Panel" },
       { href: "/facturas", label: "Facturas" },
       { href: "/notas", label: "Notas" },
-      { href: "/compras", label: "Compras" },
-      { href: "/retenciones", label: "Retenciones" },
       { href: "/cobrar", label: "Por cobrar" },
+      { href: "/retenciones", label: "Retenciones" },
       { href: "/cierre", label: "Cierre de caja" },
     ],
   },
   {
-    group: "Maestros",
+    group: "Compras",
     items: [
-      { href: "/empresa", label: "Mi empresa" },
-      { href: "/clientes", label: "Clientes" },
+      { href: "/compras", label: "Compras" },
       { href: "/proveedores", label: "Proveedores" },
-      { href: "/productos", label: "Productos" },
-      { href: "/unidades", label: "Unidades" },
-      { href: "/almacenes", label: "Almacenes" },
     ],
   },
   {
-    group: "Consultas",
+    group: "Inventario",
+    items: [
+      { href: "/productos", label: "Productos" },
+      { href: "/almacenes", label: "Almacenes" },
+      { href: "/kardex", label: "Kardex" },
+    ],
+  },
+  {
+    group: "Reportes",
     items: [
       { href: "/libro-ventas", label: "Libro de ventas" },
       { href: "/margenes", label: "Márgenes" },
-      { href: "/kardex", label: "Kardex" },
+    ],
+  },
+  {
+    group: "Configuración",
+    items: [
+      { href: "/empresa", label: "Mi empresa" },
+      { href: "/unidades", label: "Unidades" },
       { href: "/tasa", label: "Tasa BCV" },
       { href: "/accesos", label: "Registro de accesos" },
     ],
@@ -67,6 +79,28 @@ function NavGroup({
   const hasActive = items.some((i) =>
     i.href === "/" ? pathname === "/" : pathname.startsWith(i.href)
   );
+
+  // Grupo de un solo ítem: enlace directo de primer nivel, sin pliegue
+  if (items.length === 1) {
+    const item = items[0];
+    const active =
+      item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+    return (
+      <Link
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        className={`relative flex min-h-[40px] items-center px-5 text-[13.5px] font-semibold leading-none transition-colors ${
+          active ? "bg-verde-claro/40 text-verde" : "text-tinta hover:bg-papel-2/50"
+        }`}
+      >
+        <span
+          aria-hidden
+          className={`absolute left-0 top-0 h-full w-[2.5px] ${active ? "bg-verde" : "bg-transparent"}`}
+        />
+        {item.label}
+      </Link>
+    );
+  }
 
   return (
     <details open={hasActive} className="group/nav">
