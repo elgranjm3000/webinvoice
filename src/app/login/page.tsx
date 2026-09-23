@@ -1,11 +1,12 @@
+import Link from "next/link";
 import { LoginForm } from "@/components/LoginForm";
 
 export default async function Login({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; ok?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, ok } = await searchParams;
   return (
     <main className="flex min-h-screen flex-col lg:flex-row">
       {/*
@@ -64,11 +65,25 @@ export default async function Login({
             <span aria-hidden className="mt-px block h-[3px] w-10 bg-verde" />
           </header>
 
+          {ok && (
+            <p className="mb-5 border-l-2 border-esmeralda bg-white px-4 py-3 text-[13.5px] leading-relaxed text-esmeralda">
+              {ok}
+            </p>
+          )}
+
           <LoginForm error={error} />
 
-          <p className="mt-10 border-t border-regla pt-4 text-[11.5px] leading-relaxed text-tinta-suave">
-            Los montos quedan registrados en USD y en bolívares con la tasa BCV
-            vigente a la fecha de emisión.
+          <p className="mt-6 text-center text-[13px] text-tinta-suave">
+            ¿Primera vez?{" "}
+            <Link href="/registro" className="font-medium text-verde underline underline-offset-2">
+              Registra tu empresa
+            </Link>
+          </p>
+
+          <p className="mt-8 border-t border-regla pt-4 text-[11.5px] leading-relaxed text-tinta-suave">
+            Sistema multi-país: cada empresa factura en su moneda con los
+            requisitos fiscales de su país. Venezuela opera con SENIAT y tasa
+            BCV.
           </p>
         </div>
       </section>

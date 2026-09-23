@@ -4,22 +4,13 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { supabaseServer } from "@/lib/supabase";
 import { PageHeader, EmptyState } from "@/components/ui";
+import { PAISES, paisPorCodigo } from "@/lib/paises";
 import { companyLocale } from "@/lib/locale";
+import { empresaDelUsuario } from "@/lib/empresa";
 
 const inp =
   "mt-1.5 w-full border border-regla bg-white px-3 py-2 text-[14px] focus:border-verde focus:outline-none";
 
-const PAISES: { code: string; nombre: string; moneda: string; simbolo: string; locale: string; impuesto: string; id: string }[] = [
-  { code: "VE", nombre: "Venezuela", moneda: "USD", simbolo: "$", locale: "es-VE", impuesto: "IVA", id: "RIF" },
-  { code: "CO", nombre: "Colombia", moneda: "COP", simbolo: "$", locale: "es-CO", impuesto: "IVA", id: "NIT" },
-  { code: "EC", nombre: "Ecuador", moneda: "USD", simbolo: "$", locale: "es-EC", impuesto: "IVA", id: "RUC" },
-  { code: "PE", nombre: "Perú", moneda: "PEN", simbolo: "S/", locale: "es-PE", impuesto: "IGV", id: "RUC" },
-  { code: "MX", nombre: "México", moneda: "MXN", simbolo: "$", locale: "es-MX", impuesto: "IVA", id: "RFC" },
-  { code: "CL", nombre: "Chile", moneda: "CLP", simbolo: "$", locale: "es-CL", impuesto: "IVA", id: "RUT" },
-  { code: "AR", nombre: "Argentina", moneda: "ARS", simbolo: "$", locale: "es-AR", impuesto: "IVA", id: "CUIT" },
-  { code: "US", nombre: "Estados Unidos", moneda: "USD", simbolo: "$", locale: "en-US", impuesto: "Sales Tax", id: "EIN" },
-  { code: "ES", nombre: "España", moneda: "EUR", simbolo: "€", locale: "es-ES", impuesto: "IVA", id: "NIF" },
-];
 
 export default async function Empresa({
   searchParams,
@@ -28,7 +19,8 @@ export default async function Empresa({
 }) {
   const { ok, error: notice } = await searchParams;
   const sb = supabaseServer();
-  const { data: company } = await sb.from("companies").select("*").limit(1).maybeSingle();
+  const mía = await empresaDelUsuario();
+  const company = mía ? { id: mía.id } : null;
 
   if (!company) {
     return (
@@ -39,12 +31,12 @@ export default async function Empresa({
     );
   }
 
-  const cfg = companyLocale(company);
+  const cfg = mía?.locale ?? companyLocale(null);
 
+  const companyId = company.id;
   async function guardar(formData: FormData) {
     "use server";
-    const code = String(formData.get("country_code") ?? "VE");
-    const pais = PAISES.find((p) => p.code === code) ?? PAISES[0];
+    const pais = paisPorCodigo(String(formData.get("country_code") ?? "VE"));
     const { error } = await supabaseServer()
       .from("companies")
       .update({
@@ -53,12 +45,12 @@ export default async function Empresa({
         currency_symbol: pais.simbolo,
         locale: pais.locale,
         tax_name: String(formData.get("tax_name") ?? pais.impuesto),
-        tax_id_label: pais.id,
+        tax_id_label: pais.idLabel,
         secondary_currency:
           pais.code === "VE" && formData.get("multimoneda") === "on" ? "VES" : null,
         uses_igtf: pais.code === "VE" && formData.get("multimoneda") === "on",
       })
-      .eq("id", company.id);
+      .eq("id", companyId);
     revalidatePath("/empresa");
     redirect(
       error

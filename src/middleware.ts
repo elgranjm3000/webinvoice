@@ -1,8 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-/** Rutas públicas: login y archivos de Next. Todo lo demás exige sesión. */
-const PUBLIC = ["/login"];
+/** Rutas públicas: acceso, registro y archivos de Next. */
+const PUBLIC = ["/login", "/registro"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
